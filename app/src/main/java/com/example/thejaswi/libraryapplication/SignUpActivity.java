@@ -49,6 +49,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
 
+        // add validations here for all the fields
+
         if (email.getText().toString().matches("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?(sjsu)\\.edu$")) {
 
             registerLibrarian();
@@ -62,14 +64,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     public void registerPatron() {
 
-
         final Call<Patron> call;
-
-
         Patron patron = new Patron();
         patron.setEmail(email.getText().toString());
         patron.setFirstName(name.getText().toString());
-        patron.setLastName("abc");
+        patron.setLastName("abc"); // need to add this
         patron.setPassword(password.getText().toString());
         call = mAPIService.patronRegister(patron);
 
