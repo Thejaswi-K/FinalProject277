@@ -142,7 +142,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         Librarian librarian = new Librarian();
         librarian.setEmail(email.getText().toString());
         librarian.setFirstName(name.getText().toString());
-        librarian.setLastName("");
+        librarian.setLastName(last_name.getText().toString());
         librarian.setPassword(password.getText().toString());
         librarian.setUniversty_id(uid.getText().toString());
         call = mAPIService.librarianRegister(librarian);
