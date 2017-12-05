@@ -63,26 +63,27 @@ import retrofit2.Response;
 import static javax.crypto.Cipher.SECRET_KEY;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     APIService mAPIService;
-    private int PHOTO_SELECTED =777;
+    private int PHOTO_SELECTED = 777;
     private Bitmap bitMap;
     ImageView bookImage;
     Button imageupload;
     Button imageSelect;
     Uri path;
-    final private String MY_BUCKET ="librarycatalogue/BookCovers";
-    private  String OBJECT_KEY="";
+    final private String MY_BUCKET = "librarycatalogue/BookCovers";
+    private String OBJECT_KEY = "";
     private File fileToUpload;
-     private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE =899;
-     Date date;
+    private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 899;
+    Date date;
+    ImageView menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -90,7 +91,7 @@ public class HomeActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();*/
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -98,17 +99,17 @@ public class HomeActivity extends AppCompatActivity
         if (Session.getEmail().matches("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?(sjsu)\\.edu$")) {
             //lib
             navigationView.getMenu().getItem(2).setVisible(false);
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new LibSearchFragment()).commit();
         } else {
             //patron
             navigationView.getMenu().getItem(1).setVisible(false);
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new PatSearchFragment()).commit();
         }
 
+        getSupportFragmentManager().beginTransaction().add(R.id.container, new PatSearchFragment()).commit();
         TextView name = navigationView.getHeaderView(0).findViewById(R.id.name);
         TextView email = navigationView.getHeaderView(0).findViewById(R.id.email);
         name.setText(Session.getName());
         email.setText(Session.getEmail());
+        findViewById(R.id.menu).setOnClickListener(this);
 
         mAPIService = ServiceGenerator.createService(APIService.class);
 
@@ -132,7 +133,7 @@ public class HomeActivity extends AppCompatActivity
         });
     }
 
-    public void selectImage(){
+    public void selectImage() {
 
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -143,14 +144,14 @@ public class HomeActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==PHOTO_SELECTED && resultCode==RESULT_OK && data!=null){
+        if (requestCode == PHOTO_SELECTED && resultCode == RESULT_OK && data != null) {
 
-             path = data.getData();
+            path = data.getData();
             try {
 
-                Log.e("S3_UPLOAD","PATH==>"+path.toString());
+                Log.e("S3_UPLOAD", "PATH==>" + path.toString());
                 //MediaStore.Images.Media.getContentUri(path);
-                bitMap = MediaStore.Images.Media.getBitmap(getContentResolver(),path);
+                bitMap = MediaStore.Images.Media.getBitmap(getContentResolver(), path);
                 bookImage.setImageBitmap(bitMap);
                 bookImage.setVisibility(View.VISIBLE);
                 imageSelect.setVisibility(View.INVISIBLE);
@@ -162,16 +163,8 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-//    public String getPath(Uri uri) {
-//        String[] projection = { MediaStore.Images.Media.DATA };
-//        Cursor cursor = managedQuery(uri, projection, null, null, null);
-//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//        cursor.moveToFirst();
-//        return cursor.getString(column_index);
-//    }
 
-
-    public void uploadImage(){
+    public void uploadImage() {
 
         CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
                 getApplicationContext(),
@@ -181,60 +174,43 @@ public class HomeActivity extends AppCompatActivity
 
         AmazonS3 s3 = new AmazonS3Client(credentialsProvider);
         s3.setRegion(Region.getRegion(Regions.US_EAST_2));
-       // BasicAWSCredentials credentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);
-        //AmazonS3Client s3Client =   new AmazonS3Client( new BasicAWSCredentials( MY_ACCESS_KEY_ID, MY_SECRET_KEY ) )
 
         TransferUtility transferUtility = new TransferUtility(s3, HomeActivity.this);
 
-//      Uri uri=  Uri.parse(Environment.getRootDirectory().getPath()
-//                + getFilePath(,path));
 
-
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale( this,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                // Explain to the user why we need to read the contacts
             }
 
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-
-            // MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE is an
-            // app-defined int constant that should be quite unique
 
             return;
         }
 
-
-
-
-
-//        UPLOADING_IMAGE=;
         bookImage.setVisibility(View.INVISIBLE);
-        fileToUpload = new File(getPath(getApplicationContext(),path));
-        Log.e("FILE_PATH",""+fileToUpload);
+        fileToUpload = new File(getPath(getApplicationContext(), path));
+        Log.e("FILE_PATH", "" + fileToUpload);
 
-        Long ts = System.currentTimeMillis()/1000;
-        OBJECT_KEY = getImageName(path)+ts.toString();
-        TransferObserver observer = transferUtility.upload(MY_BUCKET,OBJECT_KEY,fileToUpload, CannedAccessControlList.PublicRead);
+        Long ts = System.currentTimeMillis() / 1000;
+        OBJECT_KEY = getImageName(path) + ts.toString();
+        TransferObserver observer = transferUtility.upload(MY_BUCKET, OBJECT_KEY, fileToUpload, CannedAccessControlList.PublicRead);
 
         observer.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {
 
-                // do something
-               // progress.hide();
-               // path.setText("ID "+id+"\nState "+state.name()+"\nImage ID "+OBJECT_KEY);
-                Log.e("Image_Uploaded",""+state.name());
+                Log.e("Image_Uploaded", "" + state.name());
                 bookImage.setVisibility(View.VISIBLE);
 
-                Log.e("URL_PATH","https://s3.us-east-2.amazonaws.com/"+MY_BUCKET+"/"+OBJECT_KEY);
+                Log.e("URL_PATH", "https://s3.us-east-2.amazonaws.com/" + MY_BUCKET + "/" + OBJECT_KEY);
 
                 Picasso.with(getApplicationContext())
-                        .load("https://s3.us-east-2.amazonaws.com/"+MY_BUCKET+"/"+OBJECT_KEY)
+                        .load("https://s3.us-east-2.amazonaws.com/" + MY_BUCKET + "/" + OBJECT_KEY)
                         .error(R.drawable.logo)
                         .into(bookImage);
             }
@@ -242,19 +218,14 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                 int percentage = (int) (bytesCurrent / bytesTotal * 100);
-               // progress.setProgress(percentage);
-                //Display percentage transfered to user
             }
 
             @Override
             public void onError(int id, Exception ex) {
-                // do something
-                Log.e("Error  ",""+ex );
+                Log.e("Error  ", "" + ex);
             }
 
         });
-
-
 
     }
 
@@ -271,7 +242,7 @@ public class HomeActivity extends AppCompatActivity
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
 
-                    Log.e("REAL_PATH",""+ getPath(getApplicationContext(),path));
+                    Log.e("REAL_PATH", "" + getPath(getApplicationContext(), path));
 
                 } else {
 
@@ -285,17 +256,18 @@ public class HomeActivity extends AppCompatActivity
             // permissions this app might request
         }
     }
+
     private String getImageName(Uri contentURI) {
         String thePath = "no-path-found";
         String[] filePathColumn = {MediaStore.Images.Media.DISPLAY_NAME};
-        Log.e("FILE_PATH_REAL",filePathColumn.length+"");
+        Log.e("FILE_PATH_REAL", filePathColumn.length + "");
         Cursor cursor = getContentResolver().query(contentURI, filePathColumn, null, null, null);
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             thePath = cursor.getString(columnIndex);
         }
         cursor.close();
-        return  thePath;
+        return thePath;
     }
 
     public static String getPath(final Context context, final Uri uri) {
@@ -341,7 +313,7 @@ public class HomeActivity extends AppCompatActivity
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[] {
+                final String[] selectionArgs = new String[]{
                         split[1]
                 };
 
@@ -364,9 +336,9 @@ public class HomeActivity extends AppCompatActivity
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
      *
-     * @param context The context.
-     * @param uri The Uri to query.
-     * @param selection (Optional) Filter used in the query.
+     * @param context       The context.
+     * @param uri           The Uri to query.
+     * @param selection     (Optional) Filter used in the query.
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
@@ -421,8 +393,8 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
         } else {
             super.onBackPressed();
         }
@@ -434,7 +406,7 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Log.e("logout","Clicked navigation item");
         if (id == R.id.search) {
 
             if (Session.getEmail().matches("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?(sjsu)\\.edu$")) {
@@ -450,16 +422,12 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.cart) {
             getSupportFragmentManager().beginTransaction().add(R.id.container, new CartFragment()).commit();
         } else if (id == R.id.logout) {
-
-
+            Log.e("logout","Clicked");
             logout();
-            //startActivity(new Intent(this,LoginActivity.class));
-
-            //finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.END);
         return true;
     }
 
@@ -480,7 +448,7 @@ public class HomeActivity extends AppCompatActivity
                         //String status = response.body();
                         if (response.code() == 200) {
                             Session.setLoggedIn(false);
-                            startActivity(new Intent(HomeActivity.this,LoginActivity.class));
+                            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         } else {
                             //responseText.setText("");
                             Toast.makeText(HomeActivity.this, "Unable to logout", Toast.LENGTH_SHORT).show();
@@ -511,12 +479,12 @@ public class HomeActivity extends AppCompatActivity
                     public void onResponse(Call<Void> call, Response<Void> response) {
 
                         //Display successful response results
-                       // String status = response.body();
+                        // String status = response.body();
                         //Log.e("LOGOUT_STATUS", status);
 
                         if (response.code() == 200) {
                             Session.setLoggedIn(false);
-                            startActivity(new Intent(HomeActivity.this,LoginActivity.class));
+                            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         } else {
                             //responseText.setText("");
                             Toast.makeText(HomeActivity.this, "Invalid Details", Toast.LENGTH_SHORT).show();
@@ -542,5 +510,10 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void onClick(View view) {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.openDrawer(GravityCompat.END);
+    }
 }
 

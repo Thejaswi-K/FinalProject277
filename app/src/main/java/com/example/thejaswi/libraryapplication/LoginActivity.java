@@ -42,11 +42,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-//        DBHelper d=new DBHelper(this);
-//        DBAdapter database=new DBAdapter(this);
-//        database.openDB();
-//        Cursor cursor = database.retrieveUsers(email.getText().toString(), password.getText().toString());
-
 
         if (email.getText().toString().matches("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?(sjsu)\\.edu$")) {
 

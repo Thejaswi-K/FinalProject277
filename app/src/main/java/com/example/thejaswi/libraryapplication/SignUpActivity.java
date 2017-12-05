@@ -70,6 +70,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         patron.setFirstName(name.getText().toString());
         patron.setLastName("abc"); // need to add this
         patron.setPassword(password.getText().toString());
+        patron.setUniversty_id(uid.getText().toString());
         call = mAPIService.patronRegister(patron);
 
         call.enqueue(new Callback<Patron>() {
@@ -116,6 +117,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         librarian.setFirstName(name.getText().toString());
         librarian.setLastName("");
         librarian.setPassword(password.getText().toString());
+        librarian.setUniversty_id(uid.getText().toString());
         call = mAPIService.librarianRegister(librarian);
 
         call.enqueue(new Callback<Librarian>() {

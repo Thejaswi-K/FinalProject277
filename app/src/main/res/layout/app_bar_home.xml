@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.thejaswi.libraryapplication.HomeActivity">
 
-    <android.support.design.widget.AppBarLayout
+   <!-- <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -18,7 +18,37 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.AppBarLayout> -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="50dp"
+                android:padding="10dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/search"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:background="@android:color/white"
+                android:hint="Search Catalog..."
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:layout_weight="0.2"
+            android:id="@+id/menu"
+            android:src="@drawable/menu"/>
+
+    </LinearLayout>
 
     <include layout="@layout/content_home" />
 

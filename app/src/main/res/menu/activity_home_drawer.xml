@@ -6,15 +6,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/search"
+            android:visible="false"
             android:title="Search" />
         <item
             android:id="@+id/add_books"
+            android:icon="@drawable/ic_add_circle_outline_black_24dp"
             android:title="Add Books" />
         <item
             android:id="@+id/cart"
+            android:icon="@drawable/ic_shopping_cart_black_24dp"
             android:title="Cart" />
         <item
             android:id="@+id/logout"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
             android:title="Logout" />
     </group>
 

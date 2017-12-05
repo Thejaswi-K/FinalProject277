@@ -15,9 +15,12 @@ public class Librarian {
 
     private String lastName;
 
+    private String university_id;
+
     public String getEmail() {
         return email;
     }
+
 
     public void setEmail(String email) {
         this.email = email;
@@ -45,5 +48,13 @@ public class Librarian {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getUniversty_id() {
+        return university_id;
+    }
+
+    public void setUniversty_id(String universty_id) {
+        this.university_id = universty_id;
     }
 }
