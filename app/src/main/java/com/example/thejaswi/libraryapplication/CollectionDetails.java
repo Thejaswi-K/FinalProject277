@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.example.thejaswi.libraryapplication.view.fragment.BooksAdapter;
 
-public class CollectionDetails extends AppCompatActivity {
+public class CollectionDetails extends AppCompatActivity implements View.OnClickListener {
 
     LinearLayout filter_layout;
     Boolean isOpen=false;
@@ -44,5 +44,15 @@ public class CollectionDetails extends AppCompatActivity {
         list=(RecyclerView)findViewById(R.id.list);
         list.setLayoutManager(new LinearLayoutManager(this));
         list.setAdapter(new BooksAdapter(this));
+        findViewById(R.id.back).setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.back:
+                finish();
+                break;
+        }
     }
 }

@@ -8,5 +8,37 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.example.thejaswi.libraryapplication.view.activities.HomeActivity"
     tools:showIn="@layout/app_bar_home">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Select Image"
+                android:id="@+id/selectImage"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="UploadImage"
+                android:visibility="invisible"
+                android:id="@+id/ImageUpload"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:id="@+id/bookImage"/>
+        </LinearLayout>
 
+    </LinearLayout>
 </FrameLayout>
