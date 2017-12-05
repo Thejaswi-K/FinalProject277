@@ -1,4 +1,4 @@
-package com.example.thejaswi.libraryapplication;
+package com.example.thejaswi.libraryapplication.view.fragment;
 
 
 import android.os.Bundle;
@@ -7,13 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.thejaswi.libraryapplication.R;
 
 
-public class LibSearchFragment extends Fragment {
+public class AddBooksFragment extends Fragment {
 
-    public LibSearchFragment() {
+    public AddBooksFragment() {
         // Required empty public constructor
     }
+
 
 
     @Override
@@ -29,7 +31,7 @@ public class LibSearchFragment extends Fragment {
         if (container!=null){
             container.removeAllViews();
         }
-        return inflater.inflate(R.layout.fragment_lib_search, container, false);
+        return inflater.inflate(R.layout.fragment_add_books, container, false);
     }
 
 }

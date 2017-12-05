@@ -1,4 +1,4 @@
-package com.example.thejaswi.libraryapplication;
+package com.example.thejaswi.libraryapplication.view.fragment;
 
 
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.thejaswi.libraryapplication.R;
+import com.example.thejaswi.libraryapplication.view.fragment.CollectionsAdapter;
 
 
 public class PatSearchFragment extends Fragment {

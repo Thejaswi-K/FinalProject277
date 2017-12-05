@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="com.example.thejaswi.libraryapplication.LoginActivity">
+    tools:context="com.example.thejaswi.libraryapplication.view.activities.LoginActivity">
 
     <ImageView
         android:layout_width="match_parent"

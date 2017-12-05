@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context="com.example.thejaswi.libraryapplication.SignUpActivity">
+    tools:context="com.example.thejaswi.libraryapplication.view.activities.SignUpActivity">
 
     <EditText
         android:layout_width="match_parent"

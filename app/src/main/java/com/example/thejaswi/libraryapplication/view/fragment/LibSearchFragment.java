@@ -1,4 +1,4 @@
-package com.example.thejaswi.libraryapplication;
+package com.example.thejaswi.libraryapplication.view.fragment;
 
 
 import android.os.Bundle;
@@ -7,11 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.thejaswi.libraryapplication.R;
 
 
-public class CartFragment extends Fragment {
+public class LibSearchFragment extends Fragment {
 
-    public CartFragment() {
+    public LibSearchFragment() {
         // Required empty public constructor
     }
 
@@ -29,7 +30,7 @@ public class CartFragment extends Fragment {
         if (container!=null){
             container.removeAllViews();
         }
-        return inflater.inflate(R.layout.fragment_cart, container, false);
+        return inflater.inflate(R.layout.fragment_lib_search, container, false);
     }
 
 }

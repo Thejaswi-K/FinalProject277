@@ -1,13 +1,14 @@
-package com.example.thejaswi.libraryapplication;
+package com.example.thejaswi.libraryapplication.view.activities;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.thejaswi.libraryapplication.R;
+import com.example.thejaswi.libraryapplication.Session;
 import com.example.thejaswi.libraryapplication.domain.api.APIService;
 import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
 import com.example.thejaswi.libraryapplication.model.entities.Login;

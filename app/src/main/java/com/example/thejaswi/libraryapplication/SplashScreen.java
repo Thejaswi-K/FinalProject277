@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.thejaswi.libraryapplication.view.activities.HomeActivity;
+import com.example.thejaswi.libraryapplication.view.activities.LoginActivity;
+
 public class SplashScreen extends AppCompatActivity {
 
     @Override
