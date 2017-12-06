@@ -36,7 +36,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dialog=new ProgressDialog(this);
         dialog.setMessage("Connecting");
         dialog.setCancelable(false);
-
         findViewById(R.id.signup).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

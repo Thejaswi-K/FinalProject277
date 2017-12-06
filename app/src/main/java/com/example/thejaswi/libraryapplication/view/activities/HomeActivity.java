@@ -126,6 +126,10 @@ public class HomeActivity extends AppCompatActivity
                 uploadImage();
             }
         });
+        findViewById(R.id.search_bar).setOnClickListener(this);
+
+        findViewById(R.id.search_icon).setOnClickListener(this);
+
     }
 
     public void selectImage() {
@@ -392,8 +396,16 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onClick(View view) {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.openDrawer(GravityCompat.END);
+        if(view.getId()==R.id.search_bar){
+            startActivity(new Intent(this,SearchActivity.class));
+        }
+        else if(view.getId()==R.id.search_icon){
+            startActivity(new Intent(this,SearchActivity.class));
+        }
+        else {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.openDrawer(GravityCompat.END);
+        }
     }
 }
 

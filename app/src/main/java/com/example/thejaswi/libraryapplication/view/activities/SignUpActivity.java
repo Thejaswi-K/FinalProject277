@@ -1,5 +1,6 @@
 package com.example.thejaswi.libraryapplication.view.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     EditText name, email, password, uid,last_name;
     APIService mAPIService;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +44,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 finish();
             }
         });
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Querying Database ......");
+        progressDialog.setCancelable(false);
     }
 
     @Override
     public void onClick(View view) {
 
+        progressDialog.show();
         // add validations here for all the fields
 
         if (email.getText().toString().matches("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?(sjsu)\\.edu$")) {
@@ -104,6 +110,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onResponse(Call<Patron> call, Response<Patron> response) {
 
+                progressDialog.dismiss();
                 //Display successful response results
                 Patron patron = response.body();
                 if (patron != null) {
@@ -121,6 +128,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onFailure(Call<Patron> call, Throwable t) {
+                progressDialog.dismiss();
                 // Display error message if the request fails
                 Toast.makeText(SignUpActivity.this, "Error while trying to register", Toast.LENGTH_SHORT).show();
                 //Hide progressbar when done
@@ -151,6 +159,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onResponse(Call<Librarian> call, Response<Librarian> response) {
 
+                progressDialog.dismiss();
                 //Display successful response results
                 Librarian librarian = response.body();
                 if (librarian != null) {
@@ -169,6 +178,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onFailure(Call<Librarian> call, Throwable t) {
                 // Display error message if the request fails
+                progressDialog.dismiss();
                 Toast.makeText(SignUpActivity.this, "Error while trying to register", Toast.LENGTH_SHORT).show();
                 //Hide progressbar when done
                 //progressBar.setVisibility(View.INVISIBLE);
