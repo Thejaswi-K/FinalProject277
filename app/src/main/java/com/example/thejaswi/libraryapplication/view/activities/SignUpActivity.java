@@ -20,7 +20,7 @@ import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText name, email, password, uid;
+    EditText name, email, password, uid,last_name;
     APIService mAPIService;
 
     @Override
@@ -30,7 +30,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
 
         mAPIService = ServiceGenerator.createService(APIService.class);
-        name = (EditText) findViewById(R.id.name);
+        name = (EditText) findViewById(R.id.first_name);
+        last_name=(EditText)findViewById(R.id.last_name);
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
         uid = (EditText) findViewById(R.id.Uid);
@@ -50,12 +51,41 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         if (email.getText().toString().matches("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?(sjsu)\\.edu$")) {
 
-            registerLibrarian();
+            if(uid.getText().toString().length()==9) {
+                if(password.getText().toString().length()>0) {
+                    String PASSWORD_PAT = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~!$@#%^&\\-*_\\+=`\\|\\\\()\\{\\}\\[\\]:;'\"<>,.?/]).{10,20})";
+                    if (password.getText().toString().matches(PASSWORD_PAT)) {
+                        registerLibrarian();
+                    } else {
+                        password.setError("Password Weak!");
+                    }
+                }else {
+                    password.setError("Cannot be empty!!");
+                }
+            }else {
+                uid.setError("Enter Valid id");
+            }
 
         } else {
 
-            registerPatron();
-
+            if(email.getText().toString().length()>0) {
+                if(uid.getText().toString().length()==9) {
+                    if(password.getText().toString().length()>0) {
+                        String PASSWORD_PAT = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~!$@#%^&\\-*_\\+=`\\|\\\\()\\{\\}\\[\\]:;'\"<>,.?/]).{10,20})";
+                        if (password.getText().toString().matches(PASSWORD_PAT)) {
+                            registerPatron();
+                        } else {
+                            password.setError("Password Weak!");
+                        }
+                    }else {
+                        password.setError("Cannot be empty!!");
+                    }
+                }else {
+                    uid.setError("Enter Valid id");
+                }
+            }else {
+                email.setError("Cannot be empty");
+            }
         }
     }
 
@@ -65,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         Patron patron = new Patron();
         patron.setEmail(email.getText().toString());
         patron.setFirstName(name.getText().toString());
-        patron.setLastName("abc"); // need to add this
+        patron.setLastName(last_name.getText().toString());
         patron.setPassword(password.getText().toString());
         patron.setUniversty_id(uid.getText().toString());
         call = mAPIService.patronRegister(patron);
@@ -112,7 +142,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         Librarian librarian = new Librarian();
         librarian.setEmail(email.getText().toString());
         librarian.setFirstName(name.getText().toString());
-        librarian.setLastName("");
+        librarian.setLastName(last_name.getText().toString());
         librarian.setPassword(password.getText().toString());
         librarian.setUniversty_id(uid.getText().toString());
         call = mAPIService.librarianRegister(librarian);

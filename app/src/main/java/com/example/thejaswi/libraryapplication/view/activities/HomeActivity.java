@@ -1,6 +1,7 @@
 package com.example.thejaswi.libraryapplication.view.activities;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -69,6 +70,7 @@ public class HomeActivity extends AppCompatActivity
     Uri path;
     ImageView menu;
     final private int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE =899;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,7 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();*/
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+
 
         if (Session.getEmail().matches("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?(sjsu)\\.edu$")) {
             //lib
@@ -94,6 +96,7 @@ public class HomeActivity extends AppCompatActivity
             //patron
             navigationView.getMenu().getItem(1).setVisible(false);
         }
+        navigationView.setNavigationItemSelectedListener(this);
 
         getSupportFragmentManager().beginTransaction().add(R.id.container, new PatSearchFragment()).commit();
         TextView name = navigationView.getHeaderView(0).findViewById(R.id.name);
@@ -101,6 +104,9 @@ public class HomeActivity extends AppCompatActivity
         name.setText(Session.getName());
         email.setText(Session.getEmail());
         findViewById(R.id.menu).setOnClickListener(this);
+        dialog=new ProgressDialog(this);
+        dialog.setMessage("Connecting");
+        dialog.setCancelable(false);
 
         mAPIService = ServiceGenerator.createService(APIService.class);
 
@@ -237,6 +243,7 @@ public class HomeActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().add(R.id.container, new CartFragment()).commit();
         } else if (id == R.id.logout) {
             Log.e("logout","Clicked");
+            dialog.show();
             logout();
         }
 
@@ -257,13 +264,14 @@ public class HomeActivity extends AppCompatActivity
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-
+                        dialog.dismiss();
                         //Display successful response results
                         //String status = response.body();
                         if (response.code() == 200) {
                             Session.setLoggedIn(false);
                             startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                         } else {
+                            dialog.dismiss();
                             //responseText.setText("");
                             Toast.makeText(HomeActivity.this, "Unable to logout", Toast.LENGTH_SHORT).show();
                         }
@@ -275,6 +283,7 @@ public class HomeActivity extends AppCompatActivity
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
                         // Display error message if the request fails
+                        dialog.dismiss();
                         Toast.makeText(HomeActivity.this, "Error while log out ", Toast.LENGTH_SHORT).show();
                         //Hide progressbar when done
                         //progressBar.setVisibility(View.INVISIBLE);
@@ -295,7 +304,7 @@ public class HomeActivity extends AppCompatActivity
                         //Display successful response results
                         // String status = response.body();
                         //Log.e("LOGOUT_STATUS", status);
-
+                        dialog.dismiss();
                         if (response.code() == 200) {
                             Session.setLoggedIn(false);
                             startActivity(new Intent(HomeActivity.this, LoginActivity.class));
@@ -311,6 +320,7 @@ public class HomeActivity extends AppCompatActivity
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
                         // Display error message if the request fails
+                        dialog.dismiss();
                         Toast.makeText(HomeActivity.this, "Error while login out", Toast.LENGTH_SHORT).show();
                         //Hide progressbar when done
                         //progressBar.setVisibility(View.INVISIBLE);
