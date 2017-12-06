@@ -17,6 +17,8 @@ public class Librarian {
 
     private String university_id;
 
+    private boolean verified;
+
     public String getEmail() {
         return email;
     }
@@ -56,5 +58,13 @@ public class Librarian {
 
     public void setUniversty_id(String universty_id) {
         this.university_id = universty_id;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 }

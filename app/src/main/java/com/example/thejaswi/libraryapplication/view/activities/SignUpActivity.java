@@ -1,6 +1,5 @@
 package com.example.thejaswi.libraryapplication.view.activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +12,7 @@ import com.example.thejaswi.libraryapplication.domain.api.APIService;
 import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
 import com.example.thejaswi.libraryapplication.model.entities.Librarian;
 import com.example.thejaswi.libraryapplication.model.entities.Patron;
+import com.example.thejaswi.libraryapplication.view.fragment.VerifyEmailFragment;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -105,11 +105,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             public void onResponse(Call<Patron> call, Response<Patron> response) {
 
                 //Display successful response results
+
                 Patron patron = response.body();
+
                 if (patron != null) {
+
                     Session.setEmail(patron.getEmail());
-                    Session.setLoggedIn(true);
-                    startActivity(new Intent(SignUpActivity.this, HomeActivity.class));
+                    Session.setPatron(true);
+//                    Session.setLoggedIn(true);
+//                    startActivity(new Intent(SignUpActivity.this, HomeActivity.class));
+
+                    getFragmentManager().beginTransaction().add(R.id.container,new VerifyEmailFragment()).commit();
+
                 } else {
                     //responseText.setText("");
                     Toast.makeText(SignUpActivity.this, "Invalid Details", Toast.LENGTH_SHORT).show();
@@ -155,8 +162,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 Librarian librarian = response.body();
                 if (librarian != null) {
                     Session.setEmail(librarian.getEmail());
-                    Session.setLoggedIn(true);
-                    startActivity(new Intent(SignUpActivity.this, HomeActivity.class));
+                    Session.setPatron(false);
+//                    Session.setLoggedIn(true);
+//                    startActivity(new Intent(SignUpActivity.this, HomeActivity.class));
+
+                    getFragmentManager().beginTransaction().add(R.id.container,new VerifyEmailFragment()).commit();
+
                 } else {
                     //responseText.setText("");
                     Toast.makeText(SignUpActivity.this, "Invalid Details", Toast.LENGTH_SHORT).show();

@@ -1,63 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:id="@+id/container"
     android:orientation="vertical"
     tools:context="com.example.thejaswi.libraryapplication.view.activities.LoginActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:src="@drawable/logo"
-        android:layout_height="150dp" />
-    <EditText
-        android:layout_width="match_parent"
-        android:hint="Email"
-        android:layout_margin="10dp"
-        android:id="@+id/email"
-        android:background="@drawable/edit_text_design"
-        android:padding="10dp"
-        android:inputType="textEmailAddress"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:layout_width="match_parent"
-        android:hint="Password"
-        android:layout_margin="10dp"
-        android:id="@+id/password"
-        android:background="@drawable/edit_text_design"
-        android:padding="10dp"
-        android:inputType="textPassword"
-        android:layout_height="wrap_content" />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_margin="10dp"
-        android:text="Login"
-        android:background="@drawable/button_design"
-        android:textColor="@android:color/white"
-        android:id="@+id/login"
-        android:layout_height="wrap_content" />
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:text="New Here? "
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:id="@+id/signup"
-            android:text="SignUp"
-            android:textColor="@color/colorPrimary"
-            />
-    </LinearLayout>
+        android:layout_height="match_parent">
 
-</LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:src="@drawable/logo" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_design"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="10dp" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_design"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/button_design"
+            android:text="Login"
+            android:textColor="@android:color/white" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="New Here? "
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SignUp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

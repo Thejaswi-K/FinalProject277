@@ -13,6 +13,7 @@ import com.example.thejaswi.libraryapplication.Session;
 import com.example.thejaswi.libraryapplication.domain.api.APIService;
 import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
 import com.example.thejaswi.libraryapplication.model.entities.Login;
+import com.example.thejaswi.libraryapplication.view.fragment.VerifyEmailFragment;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +55,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Login login=new Login();
             login.setEmail(email.getText().toString());
             login.setPassword(password.getText().toString());
+            Session.setPatron(false);
             final Call<Login> call = mAPIService.librarianLogin(login );
             call.enqueue(new Callback<Login>() {
                 @Override
@@ -62,11 +64,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     //Display successful response results
                     dialog.dismiss();
                     Login userLogin = response.body();
-                    if (userLogin != null) {
+                    if (response.code()==200 && userLogin.isVerified()) {
                         Session.setEmail(userLogin.getEmail());
                         Session.setLoggedIn(true);
                         startActivity(new Intent(LoginActivity.this,HomeActivity.class));
-                        finish();
+                         finish();
+
+
+                    } else if(response.code()==200 && !userLogin.isVerified()){
+
+                        getFragmentManager().beginTransaction().add(R.id.container,new VerifyEmailFragment()).commit();
                     } else {
                         //responseText.setText("");
                         Toast.makeText(LoginActivity.this, "Invalid Details", Toast.LENGTH_SHORT).show();
@@ -94,6 +101,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Login login=new Login();
             login.setEmail(email.getText().toString());
             login.setPassword(password.getText().toString());
+            Session.setPatron(true);
             final Call<Login> call = mAPIService.patronLogin(login );
 
             call.enqueue(new Callback<Login>() {
@@ -102,11 +110,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     dialog.dismiss();
                     //Display successful response results
                     Login userLogin = response.body();
-                    if (userLogin != null) {
+                    if (response.code()==200 && userLogin.isVerified()) {
                         Session.setEmail(userLogin.getEmail());
                         Session.setLoggedIn(true);
                         startActivity(new Intent(LoginActivity.this,HomeActivity.class));
                         finish();
+
+
+                    } else if(response.code()==200 && !userLogin.isVerified()){
+
+                        getFragmentManager().beginTransaction().add(R.id.container,new VerifyEmailFragment()).commit();
                     } else {
                         //responseText.setText("");
                         Toast.makeText(LoginActivity.this, "Invalid Details", Toast.LENGTH_SHORT).show();

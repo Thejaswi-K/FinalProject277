@@ -28,6 +28,10 @@ public class Session {
         userPreference.edit().putString("email", unit).apply();
     }
 
+    public static void setPatron(Boolean unit) {
+        userPreference.edit().putBoolean("isPatron", unit).apply();
+    }
+
     public static String getEmail() {
 
         return userPreference.getString("email", "");
@@ -38,6 +42,10 @@ public class Session {
 
     public static Boolean isLoggedIn() {
         return userPreference.getBoolean("log", false);
+    }
+
+    public static Boolean isPatron() {
+        return userPreference.getBoolean("isPatron", false);
     }
 
     public static void setName(String name) {

@@ -93,29 +93,8 @@ public class AddBooksFragment extends android.app.Fragment implements View.OnCli
 
     public void scanTheBook() {
 
-        Log.e("INSIDE_SCAN_BOOK","");
-
-        int frontId = 0, backId = 0;
-        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-        int numberOfCameras = Camera.getNumberOfCameras();
-
-        Log.e("numberOfCameras",""+numberOfCameras);
-
-//        for (int i = 0; i < numberOfCameras; i++) {
-//            Camera.getCameraInfo(i, cameraInfo);
-//            Log.e("cameraInfo",""+cameraInfo);
-//            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-//                frontId = i;
-//                Log.e("frontId",""+frontId);
-//            } else if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-//                backId = i;
-//                Log.e("backId",""+backId);
-//            }
-//        }
 
         Boolean bool = (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED);
-
-        Log.e("PERMISSION check",bool+"");
 
         if(bool){
 

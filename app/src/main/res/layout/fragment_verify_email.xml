@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Email has been sent to"
+                android:textSize="25dp"
+                android:id="@+id/emailVerifyText"
+                android:fontFamily="sans-serif"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Please verify your email"
+                android:textSize="30dp"
+                android:fontFamily="sans-serif"
+                android:layout_below="@+id/emailVerifyText"
+                />
+        </RelativeLayout>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:text="Next"
+            android:background="@drawable/button_design"
+            android:textColor="@android:color/white"
+            android:id="@+id/verifyEmail"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

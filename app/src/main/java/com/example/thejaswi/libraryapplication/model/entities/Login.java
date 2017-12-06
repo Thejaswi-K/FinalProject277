@@ -7,6 +7,8 @@ package com.example.thejaswi.libraryapplication.model.entities;
 public class Login {
     private String email;
     private String password;
+    private boolean verified;
+
 
     public String getEmail() {
         return email;
@@ -22,6 +24,14 @@ public class Login {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 }
 

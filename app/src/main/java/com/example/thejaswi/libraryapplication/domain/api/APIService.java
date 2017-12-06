@@ -5,6 +5,7 @@ import com.example.thejaswi.libraryapplication.model.entities.Librarian;
 import com.example.thejaswi.libraryapplication.model.entities.Login;
 import com.example.thejaswi.libraryapplication.model.entities.Logout;
 import com.example.thejaswi.libraryapplication.model.entities.Patron;
+import com.example.thejaswi.libraryapplication.model.entities.Response;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -40,5 +41,11 @@ public interface APIService {
 
     @GET("books/v1/volumes")
     Call<GoogleBooks> getISBNDetails(@Query( "q") String isbn);
+
+    @GET("patron/verified")
+    Call<Boolean> patronVerify(@Query( "email") String email);
+
+    @GET("librarian/verified")
+    Call<Boolean> librarianVerify(@Query( "email") String email);
 
 }
