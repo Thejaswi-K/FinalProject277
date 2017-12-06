@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.thejaswi.libraryapplication.R;
@@ -33,8 +34,10 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
     @Override
     public void onBindViewHolder(Holder holder, int position) {
         if(Session.getEmail().matches("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?(sjsu)\\.edu$")){
-            holder.text1.setText("Update");
-            holder.text2.setText("Delete");
+            holder.cart.setVisibility(View.GONE);
+        }else {
+            holder.edit.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
         }
     }
 
@@ -46,10 +49,14 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
     public class Holder extends RecyclerView.ViewHolder {
 
         TextView text1,text2;
+        ImageView cart,edit,delete;
         public Holder(View itemView) {
             super(itemView);
             text1=(TextView)itemView.findViewById(R.id.text1);
             text2=(TextView)itemView.findViewById(R.id.text2);
+            cart=(ImageView)itemView.findViewById(R.id.cart);
+            edit=(ImageView)itemView.findViewById(R.id.edit);
+            delete=(ImageView)itemView.findViewById(R.id.delete);
         }
     }
 }

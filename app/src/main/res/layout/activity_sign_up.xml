@@ -11,10 +11,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical">
-
 
         <EditText
             android:id="@+id/first_name"
@@ -38,35 +38,36 @@
             android:padding="10dp" />
 
         <EditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/edit_text_design"
             android:hint="Email"
+            android:layout_margin="10dp"
+            android:id="@+id/email"
+            android:background="@drawable/edit_text_design"
+            android:padding="10dp"
             android:inputType="textEmailAddress"
-            android:padding="10dp" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <EditText
-            android:id="@+id/password"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/edit_text_design"
             android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="10dp" />
-
-        <EditText
-            android:id="@+id/Uid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/edit_text_design"
+            android:padding="10dp"
+            android:id="@+id/password"
+            android:inputType="textPassword"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_width="match_parent"
             android:hint="University ID"
-            android:inputType="textEmailAddress"
+            android:layout_margin="10dp"
+            android:id="@+id/Uid"
+            android:background="@drawable/edit_text_design"
+            android:padding="10dp"
             android:maxLength="9"
-            android:padding="10dp" />
+            android:digits="0123456789"
+            android:inputType="textEmailAddress"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/signup"
