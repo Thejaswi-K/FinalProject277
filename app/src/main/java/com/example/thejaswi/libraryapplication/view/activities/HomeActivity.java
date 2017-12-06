@@ -110,7 +110,9 @@ public class HomeActivity extends AppCompatActivity
         imageSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectImage();
+                //checkPermission();
+
+                getFragmentManager().beginTransaction().add(R.id.container, new AddBooksFragment(),"ADD_BOOK_FRAGMENT").commit();
             }
         });
 
@@ -120,6 +122,17 @@ public class HomeActivity extends AppCompatActivity
                 uploadImage();
             }
         });
+    }
+
+    public void checkPermission(){
+
+        AccessPermissions accessPermissions = new AccessPermissions(this, this,MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        if (accessPermissions.validateStorageAccessPermission()){
+
+            selectImage();
+
+        }
+
     }
 
     public void selectImage() {
@@ -155,75 +168,11 @@ public class HomeActivity extends AppCompatActivity
 
     public void uploadImage() {
 
-        AccessPermissions accessPermissions = new AccessPermissions(this, this,MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-
-
-        if (accessPermissions.validateStorageAccessPermission()){
-
             bookImage.setVisibility(View.INVISIBLE);
             S3ImageUpload s3ImageUpload = new S3ImageUpload(this,this,path,bookImage);
             s3ImageUpload.upload();
 
-
-        };
-
         return;
-//
-//        AmazonS3 s3 = new AmazonS3Client(credentialsProvider);
-//        s3.setRegion(Region.getRegion(Regions.US_EAST_2));
-
-
-
-//
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-//                != PackageManager.PERMISSION_GRANTED) {
-//
-//            // Should we show an explanation?
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-//                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-//            }
-//
-//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-//
-//            return;
-//        }
-
-
-//        fileToUpload = new File(getPath(getApplicationContext(), path));
-//        Log.e("FILE_PATH", "" + fileToUpload);
-//
-//        Long ts = System.currentTimeMillis() / 1000;
-//        OBJECT_KEY = getImageName(path) + ts.toString();
-//        TransferObserver observer = transferUtility.upload(MY_BUCKET, OBJECT_KEY, fileToUpload, CannedAccessControlList.PublicRead);
-//
-//        observer.setTransferListener(new TransferListener() {
-//            @Override
-//            public void onStateChanged(int id, TransferState state) {
-//
-//                Log.e("Image_Uploaded", "" + state.name());
-//                bookImage.setVisibility(View.VISIBLE);
-//
-//                Log.e("URL_PATH", "https://s3.us-east-2.amazonaws.com/" + MY_BUCKET + "/" + OBJECT_KEY);
-//
-//                Picasso.with(getApplicationContext())
-//                        .load("https://s3.us-east-2.amazonaws.com/" + MY_BUCKET + "/" + OBJECT_KEY)
-//                        .error(R.drawable.logo)
-//                        .into(bookImage);
-//            }
-//
-//            @Override
-//            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-//                int percentage = (int) (bytesCurrent / bytesTotal * 100);
-//            }
-//
-//            @Override
-//            public void onError(int id, Exception ex) {
-//                Log.e("Error  ", "" + ex);
-//            }
-//
-//        });
-
     }
 
 
@@ -237,12 +186,7 @@ public class HomeActivity extends AppCompatActivity
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-
-                    bookImage.setVisibility(View.INVISIBLE);
-                    S3ImageUpload s3ImageUpload = new S3ImageUpload(this,this,path,bookImage);
-                   s3ImageUpload.upload();
+                    selectImage();
 
 
                 } else {
@@ -288,7 +232,7 @@ public class HomeActivity extends AppCompatActivity
 
             }
         } else if (id == R.id.add_books) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new AddBooksFragment()).commit();
+            getFragmentManager().beginTransaction().add(R.id.container, new AddBooksFragment()).commit();
         } else if (id == R.id.cart) {
             getSupportFragmentManager().beginTransaction().add(R.id.container, new CartFragment()).commit();
         } else if (id == R.id.logout) {

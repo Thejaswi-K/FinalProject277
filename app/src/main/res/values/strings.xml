@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">LibraryApplication</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="ec2_server">http://ec2-54-87-33-208.compute-1.amazonaws.com:8080</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
