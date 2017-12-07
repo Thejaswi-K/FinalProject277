@@ -4,6 +4,8 @@ import android.content.res.ColorStateList;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,6 +26,8 @@ import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.model.entities.ElasticQueryObject;
 import com.example.thejaswi.libraryapplication.model.entities.ElasticSearchResult;
 import com.example.thejaswi.libraryapplication.model.entities.GoogleBooks;
+import com.example.thejaswi.libraryapplication.view.fragment.BooksAdapter;
+import com.example.thejaswi.libraryapplication.view.fragment.CartBooksAdapter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,6 +46,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     View line1,line2;
     CheckBox addedByMe;
     APIService mAPIService;
+    RecyclerView showResult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +76,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         }else {
             addedByMe.setVisibility(View.GONE);
         }
+
+        showResult = (RecyclerView) findViewById(R.id.searchResult);
+        showResult.setLayoutManager(new LinearLayoutManager(this));
+
 
         search.addTextChangedListener(new TextWatcher() {
 
@@ -125,6 +135,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     }
 
                     Log.e("All CATALOG", ""+allCatalog.get(0).getAuthor());
+
+
+                    showResult.setAdapter(new BooksAdapter(getApplicationContext(),allCatalog));
+
 
 //                    List<GoogleBooks.Item> allItems = response.body().getItems();
 //

@@ -28,6 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_margin="5dp"
                 android:textStyle="bold"
                 android:id="@+id/text1"
@@ -41,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:id="@+id/text2"
+                android:textColor="@color/colorPrimaryDark"
                 android:layout_margin="5dp"
                 android:text="Publisher name"/>
             <View
@@ -88,6 +90,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_margin="5dp"
+            android:textColor="@color/colorPrimaryDark"
             android:text="Big Ranch: Android Programming 3rd Edition"/>
 
     </LinearLayout>
