@@ -30,7 +30,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        clist.setAdapter(new CartBooksAdapter(getApplicationContext(), Cart.getCatalogList()));
+        clist.setAdapter(new CartBooksAdapter(getApplicationContext(), Cart.getCatalogArrayList()));
         switch(view.getId()){
             case R.id.bk:
                 finish();

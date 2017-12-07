@@ -20,6 +20,7 @@ import org.joda.time.DateTime;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,8 +30,8 @@ import java.util.Set;
 public class CartBooksAdapter extends RecyclerView.Adapter<CartBooksAdapter.Holder> {
 
     Context context;
-    Set<Catalog> catalogs;
-    public CartBooksAdapter(Context context, Set<Catalog> catalogSet) {
+    List<Catalog> catalogs;
+    public CartBooksAdapter(Context context, List<Catalog> catalogSet) {
         this.context = context;
         this.catalogs=catalogSet;
     }
@@ -81,8 +82,9 @@ public class CartBooksAdapter extends RecyclerView.Adapter<CartBooksAdapter.Hold
 
     @Override
     public int getItemCount() {
-        return Cart.getCatalogList().size();
+        return Cart.getCatalogArrayList().size();
     }
+
     public class Holder extends RecyclerView.ViewHolder {
 
         TextView dueDate,bookedDate,availability,bookTitle,isbn,publisher,author;
