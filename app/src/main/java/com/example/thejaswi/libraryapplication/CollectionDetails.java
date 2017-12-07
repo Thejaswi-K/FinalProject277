@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.example.thejaswi.libraryapplication.view.activities.CartActivity;
 import com.example.thejaswi.libraryapplication.view.activities.SearchActivity;
 import com.example.thejaswi.libraryapplication.view.fragment.BooksAdapter;
 
@@ -48,6 +49,7 @@ public class CollectionDetails extends AppCompatActivity implements View.OnClick
         list.setAdapter(new BooksAdapter(this));
         findViewById(R.id.back).setOnClickListener(this);
         findViewById(R.id.search).setOnClickListener(this);
+
     }
 
     @Override

@@ -10,8 +10,8 @@
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".ApplicationClass"
@@ -38,9 +38,10 @@
             android:name=".view.activities.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".CollectionDetails" />
-        <activity android:name=".view.activities.SearchActivity"></activity>
+        <activity android:name=".view.activities.SearchActivity" />
+        <activity android:name=".view.activities.CartActivity"></activity>
     </application>
 
 </manifest>

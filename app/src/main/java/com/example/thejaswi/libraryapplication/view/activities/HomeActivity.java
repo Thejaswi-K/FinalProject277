@@ -244,7 +244,7 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.add_books) {
             getFragmentManager().beginTransaction().add(R.id.container, new AddBooksFragment(),"ADD_BOOK_FRAGMENT").commit();
         } else if (id == R.id.cart) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new CartFragment()).commit();
+            startActivity(new Intent(this,CartActivity.class));
         } else if (id == R.id.logout) {
             Log.e("logout","Clicked");
             dialog.show();
