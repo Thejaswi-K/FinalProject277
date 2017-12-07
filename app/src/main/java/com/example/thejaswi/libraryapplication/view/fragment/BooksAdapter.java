@@ -3,14 +3,17 @@ package com.example.thejaswi.libraryapplication.view.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thejaswi.libraryapplication.R;
 import com.example.thejaswi.libraryapplication.Session;
+import com.example.thejaswi.libraryapplication.model.entities.Cart;
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.view.activities.CartActivity;
 import com.example.thejaswi.libraryapplication.view.activities.SearchActivity;
@@ -81,7 +84,14 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
             cart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    context.startActivity(new Intent(context,CartActivity.class));
+                    System.out.println("Clicked on item :"+String.valueOf(getAdapterPosition()));
+
+
+                    Cart.add(catalog.get(getAdapterPosition()));
+                    Toast.makeText(context.getApplicationContext(),"Added to cart!",Toast.LENGTH_SHORT).show();
+
+                    System.out.println("Cart :"+Cart.getCatalogList());
+//                    context.startActivity(new Intent(context,CartActivity.class));
                 }
             });
         }

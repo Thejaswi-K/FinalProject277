@@ -32,7 +32,7 @@
                 android:layout_margin="5dp"
                 android:textStyle="bold"
                 android:id="@+id/availability"
-                android:text="Availability"/>
+                android:text="Available"/>
             <View
                 android:layout_width="match_parent"
                 android:background="@android:color/black"
@@ -71,9 +71,48 @@
             android:textStyle="bold"
             android:layout_margin="5dp"
             android:id="@+id/bookname"
-            android:text="Big Ranch: Android Programming 3rd Edition"/>
+            android:text="Book title"/>
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/black"
+        android:layout_height="1dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_margin="5dp"
+        android:id="@+id/cartAuthor"
+        android:text="Author name"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/black"
+        android:layout_height="1dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_margin="5dp"
+        android:id="@+id/cartPublisher"
+        android:text="Publisher name"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/black"
+        android:layout_height="1dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_margin="5dp"
+        android:id="@+id/cartISBN"
+        android:text="ISBN"/>
     <View
         android:layout_width="match_parent"
         android:layout_marginTop="15dp"

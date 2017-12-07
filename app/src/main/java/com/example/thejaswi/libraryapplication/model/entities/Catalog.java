@@ -126,4 +126,23 @@ public class Catalog {
     public void setKeywords(Set<String> keywords) {
         this.keywords = keywords;
     }
+
+    @Override
+    public String toString() {
+        return "Catalog{" +
+                "catalog_id=" + catalog_id +
+                ", bookSet=" + bookSet +
+                ", wait_list=" + wait_list +
+                ", title='" + title + '\'' +
+                ", image_url='" + image_url + '\'' +
+                ", author='" + author + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", call_number=" + call_number +
+                ", year='" + year + '\'' +
+                ", location='" + location + '\'' +
+                ", number_of_copies=" + number_of_copies +
+                ", keywords=" + keywords +
+                '}';
+    }
 }

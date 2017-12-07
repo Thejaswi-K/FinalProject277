@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
+
 import com.example.thejaswi.libraryapplication.R;
+import com.example.thejaswi.libraryapplication.model.entities.Cart;
 import com.example.thejaswi.libraryapplication.view.fragment.CartBooksAdapter;
 
 public class CartActivity extends AppCompatActivity implements View.OnClickListener {
     RecyclerView clist;
+    Button go2cart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +26,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        clist.setAdapter(new CartBooksAdapter(getApplicationContext(), Cart.getCatalogList()));
         switch(view.getId()){
             case R.id.bk:
                 finish();
