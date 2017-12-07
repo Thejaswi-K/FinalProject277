@@ -11,13 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.thejaswi.libraryapplication.R;
-import com.example.thejaswi.libraryapplication.view.fragment.CollectionsAdapter;
 
 
-public class PatSearchFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
     RecyclerView list;
-    public PatSearchFragment() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -35,7 +34,7 @@ public class PatSearchFragment extends Fragment {
         if (container!=null){
             container.removeAllViews();
         }
-        return inflater.inflate(R.layout.fragment_pat_search, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override

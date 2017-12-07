@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/bookimage"
+                android:src="@drawable/book_cover"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:background="@android:color/black"
+                android:layout_height="1dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:id="@+id/availability"
+                android:text="Availability"/>
+            <View
+                android:layout_width="match_parent"
+                android:background="@android:color/black"
+                android:layout_height="1dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:id="@+id/bookdate"
+                android:layout_margin="5dp"
+                android:text="Booked Date"/>
+            <View
+                android:layout_width="match_parent"
+                android:background="@android:color/black"
+                android:layout_height="1dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:id="@+id/duedate"
+                android:layout_margin="5dp"
+                android:text="Due Date"/>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="@android:color/black"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_margin="5dp"
+            android:id="@+id/bookname"
+            android:text="Big Ranch: Android Programming 3rd Edition"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/black"
+        android:layout_height="1dp"/>
+</LinearLayout>

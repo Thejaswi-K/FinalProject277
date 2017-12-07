@@ -5,9 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/search"
-            android:visible="false"
-            android:title="Search" />
+            android:id="@+id/home"
+            android:title="Home"
+            android:icon="@drawable/ic_home_black_24dp"/>
         <item
             android:id="@+id/add_books"
             android:icon="@drawable/ic_add_circle_outline_black_24dp"

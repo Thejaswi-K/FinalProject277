@@ -1,6 +1,7 @@
 package com.example.thejaswi.libraryapplication.view.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,9 @@ import android.widget.TextView;
 
 import com.example.thejaswi.libraryapplication.R;
 import com.example.thejaswi.libraryapplication.Session;
+import com.example.thejaswi.libraryapplication.view.activities.CartActivity;
+import com.example.thejaswi.libraryapplication.view.activities.SearchActivity;
+
 
 /**
  * Created by thejaswi on 12/3/2017.
@@ -57,6 +61,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
             cart=(ImageView)itemView.findViewById(R.id.cart);
             edit=(ImageView)itemView.findViewById(R.id.edit);
             delete=(ImageView)itemView.findViewById(R.id.delete);
+            cart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(context,CartActivity.class));
+                }
+            });
         }
     }
 }
