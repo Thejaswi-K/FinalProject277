@@ -1,21 +1,12 @@
 package com.example.thejaswi.libraryapplication.view.activities;
 
-import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -28,16 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.example.thejaswi.libraryapplication.R;
 import com.example.thejaswi.libraryapplication.Session;
 import com.example.thejaswi.libraryapplication.domain.api.APIService;
@@ -45,14 +26,9 @@ import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
 import com.example.thejaswi.libraryapplication.util.AccessPermissions;
 import com.example.thejaswi.libraryapplication.util.S3ImageUpload;
 import com.example.thejaswi.libraryapplication.view.fragment.AddBooksFragment;
-import com.example.thejaswi.libraryapplication.view.fragment.CartFragment;
-import com.example.thejaswi.libraryapplication.view.fragment.LibSearchFragment;
-import com.example.thejaswi.libraryapplication.view.fragment.PatSearchFragment;
-import com.squareup.picasso.Picasso;
+import com.example.thejaswi.libraryapplication.view.fragment.HomeFragment;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -98,7 +74,7 @@ public class HomeActivity extends AppCompatActivity
         }
         navigationView.setNavigationItemSelectedListener(this);
 
-        getSupportFragmentManager().beginTransaction().add(R.id.container, new PatSearchFragment()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container, new HomeFragment()).commit();
         TextView name = navigationView.getHeaderView(0).findViewById(R.id.name);
         TextView email = navigationView.getHeaderView(0).findViewById(R.id.email);
         name.setText(Session.getName());
@@ -231,16 +207,8 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Log.e("logout","Clicked navigation item");
-        if (id == R.id.search) {
-
-            if (Session.getEmail().matches("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?(sjsu)\\.edu$")) {
-                //lib
-                getSupportFragmentManager().beginTransaction().add(R.id.container, new LibSearchFragment()).commit();
-            } else {
-                //patron
-                getSupportFragmentManager().beginTransaction().add(R.id.container, new PatSearchFragment()).commit();
-
-            }
+        if (id == R.id.home) {
+                getSupportFragmentManager().beginTransaction().add(R.id.container, new HomeFragment()).commit();
         } else if (id == R.id.add_books) {
             getFragmentManager().beginTransaction().add(R.id.container, new AddBooksFragment(),"ADD_BOOK_FRAGMENT").commit();
         } else if (id == R.id.cart) {
