@@ -13,13 +13,13 @@
             android:gravity="center"
             >
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/bookImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:contentDescription="@string/desc"
-                android:src="@drawable/ic_launcher_background" />
+                android:src="@drawable/ic_launcher_background" />-->
 
             <LinearLayout
             android:id="@+id/layout1"
