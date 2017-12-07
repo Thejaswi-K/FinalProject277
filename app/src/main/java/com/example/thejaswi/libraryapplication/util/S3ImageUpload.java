@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -32,7 +33,7 @@ import java.util.Date;
  * Created by Mak on 12/4/17.
  */
 
-public class S3ImageUpload {
+public class S3ImageUpload  {
 
     Context context;
     Activity activity;
@@ -46,6 +47,8 @@ public class S3ImageUpload {
     Date date;
     MediaPath mediaPath;
     Boolean status =false;
+    String url;
+    boolean ImageUploaded;
 
     public S3ImageUpload(Context context, Activity activity, Uri path,ImageView bookImage) {
 
@@ -53,8 +56,6 @@ public class S3ImageUpload {
         this.activity = activity;
         this.path = path;
         this.bookImage=bookImage;
-
-
 
     }
 
@@ -96,15 +97,17 @@ public class S3ImageUpload {
 //
 
                 Log.e("Image_Uploaded", "" + state.name());
-                bookImage.setVisibility(View.VISIBLE);
-                if(state.name().equals("COMPLETED")){
 
-                    Picasso.with(context)
-                            .load( S3_BASE_URL+ MY_BUCKET + "/" + OBJECT_KEY)
-                            .error(R.drawable.logo)
-                            .into(bookImage);
-
-                }
+                url= S3_BASE_URL+ MY_BUCKET + "/" + OBJECT_KEY;
+//                bookImage.setVisibility(View.VISIBLE);
+//                if(state.name().equals("COMPLETED")){
+//
+//                    Picasso.with(context)
+//                            .load( S3_BASE_URL+ MY_BUCKET + "/" + OBJECT_KEY)
+//                            .error(R.drawable.logo)
+//                            .into(bookImage);
+//
+//                }
 
 
 
@@ -123,6 +126,7 @@ public class S3ImageUpload {
 
         });
 
+
         return status;
 
 
@@ -138,6 +142,12 @@ public class S3ImageUpload {
 
         return credentialsProvider;
     }
+
+
+    public String getUrl() {
+        return url;
+    }
+
 
 
 }
