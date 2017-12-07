@@ -90,7 +90,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
                     Cart.add(catalog.get(getAdapterPosition()));
                     Toast.makeText(context.getApplicationContext(),"Added to cart!",Toast.LENGTH_SHORT).show();
 
-                    System.out.println("Cart :"+Cart.getCatalogList());
+                    System.out.println("Cart :"+Cart.getCatalogArrayList());
 //                    context.startActivity(new Intent(context,CartActivity.class));
                 }
             });
