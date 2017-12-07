@@ -11,8 +11,11 @@ import android.widget.TextView;
 
 import com.example.thejaswi.libraryapplication.R;
 import com.example.thejaswi.libraryapplication.Session;
+import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.view.activities.CartActivity;
 import com.example.thejaswi.libraryapplication.view.activities.SearchActivity;
+
+import java.util.List;
 
 
 /**
@@ -24,8 +27,15 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
 
     Context context;
 
+    List<Catalog> catalog;
+
     public BooksAdapter(Context context) {
         this.context = context;
+    }
+
+    public BooksAdapter(Context context, List<Catalog> catalog) {
+        this.context = context;
+        this.catalog = catalog;
     }
 
     @Override
@@ -43,11 +53,14 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
             holder.edit.setVisibility(View.GONE);
             holder.delete.setVisibility(View.GONE);
         }
+        holder.text1.setText(catalog.get(position).getTitle());
+        holder.text2.setText(catalog.get(position).getAuthor());
+
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return catalog.size();
     }
 
     public class Holder extends RecyclerView.ViewHolder {

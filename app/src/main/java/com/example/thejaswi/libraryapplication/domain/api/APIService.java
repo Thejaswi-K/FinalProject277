@@ -1,6 +1,8 @@
 package com.example.thejaswi.libraryapplication.domain.api;
 
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
+import com.example.thejaswi.libraryapplication.model.entities.ElasticQueryObject;
+import com.example.thejaswi.libraryapplication.model.entities.ElasticSearchResult;
 import com.example.thejaswi.libraryapplication.model.entities.GoogleBooks;
 import com.example.thejaswi.libraryapplication.model.entities.Librarian;
 import com.example.thejaswi.libraryapplication.model.entities.Login;
@@ -52,5 +54,8 @@ public interface APIService {
 
     @GET("librarian/verified")
     Call<Boolean> librarianVerify(@Query( "email") String email);
+
+    @POST("catalog/_suggest")
+    Call<ElasticSearchResult> elasticSearch(@Body ElasticQueryObject query);
 
 }

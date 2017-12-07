@@ -1,7 +1,12 @@
 package com.example.thejaswi.libraryapplication.view.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +22,22 @@ import com.example.thejaswi.libraryapplication.domain.api.ISBNServiceGenerator;
 import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.model.entities.GoogleBooks;
+import com.example.thejaswi.libraryapplication.util.AccessPermissions;
+import com.example.thejaswi.libraryapplication.util.AwsUpload;
+import com.example.thejaswi.libraryapplication.util.S3ImageUpload;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Mak on 12/6/17.
@@ -49,6 +61,11 @@ public class BookFormFragment extends Fragment {
     String isbn;
     APIService mAPIService;
     APIService addBookAPIService;
+    Uri path;
+
+    final private int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE =899;
+    private int PHOTO_SELECTED = 777;
+    private Bitmap bitMap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,6 +107,14 @@ public class BookFormFragment extends Fragment {
             fillForm(getArguments().getString("ISBN"));
         }
 
+        bookImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                checkPermission();
+
+            }
+        });
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +132,24 @@ public class BookFormFragment extends Fragment {
                 item.setLocation(locationInTheLibrary.getText().toString());
                 item.setKeywords(getKeywords(keyWords.getText().toString()));
 
-                submitResult(item);
+                if (getArguments().containsKey("ISBN")) {
+
+                    submitResult(item);
+
+                } else{
+                    try {
+
+                        imageUrl = uploadImage();
+
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    item.setImage_url(imageUrl);
+                    submitResult(item);
+                }
 
             }
         });
@@ -214,7 +256,6 @@ public class BookFormFragment extends Fragment {
 
         });
 
-
     }
 
 
@@ -254,6 +295,84 @@ public class BookFormFragment extends Fragment {
 
         return null;
     }
+
+
+  // upload image to s3
+
+    public void checkPermission(){
+
+        AccessPermissions accessPermissions = new AccessPermissions(getActivity().getApplicationContext(), getActivity(),MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        if (accessPermissions.validateStorageAccessPermission()){
+
+            selectImage();
+        }
+
+    }
+
+    public void selectImage() {
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PHOTO_SELECTED);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PHOTO_SELECTED && resultCode == RESULT_OK && data != null) {
+
+            path = data.getData();
+            try {
+
+                Log.e("S3_UPLOAD", "PATH==>" + path.toString());
+                //MediaStore.Images.Media.getContentUri(path);
+                bitMap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), path);
+                bookImage.setImageBitmap(bitMap);
+                bookImage.setVisibility(View.VISIBLE);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public String uploadImage() throws ExecutionException, InterruptedException {
+
+        AwsUpload awsUpload = new AwsUpload(getActivity().getApplicationContext(),getActivity(),path);
+
+        return awsUpload.execute().get();
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    selectImage();
+
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+
 
 
 }
