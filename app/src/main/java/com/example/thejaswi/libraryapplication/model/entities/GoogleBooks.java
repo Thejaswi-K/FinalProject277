@@ -1,5 +1,6 @@
 package com.example.thejaswi.libraryapplication.model.entities;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Map;
  * Created by Mak on 12/5/17.
  */
 
-public class GoogleBooks {
+public class GoogleBooks implements Serializable{
 
 
     private String kind;

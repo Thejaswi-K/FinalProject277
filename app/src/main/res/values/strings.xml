@@ -2,6 +2,18 @@
     <string name="app_name">LibraryApplication</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="ec2_server">http://ec2-54-87-33-208.compute-1.amazonaws.com:8080</string>
+    <string name="author">Author</string>
+    <string name="title">Title</string>
+    <string name="call_number">Call Number</string>
+    <string name="publisher">Publisher</string>
+    <string name="published_year">Year of Publication</string>
+    <string name="location">Location in the library</string>
+    <string name="copies">Number Of Copies</string>
+    <string name="current_status">Current Status</string>
+    <string name="keywords">Keywords</string>
+    <string name="desc">Upload</string>
+    <string name="submit">Submit</string>
+    <string name="sub_btn">Submit</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

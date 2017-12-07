@@ -1,5 +1,6 @@
 package com.example.thejaswi.libraryapplication.domain.api;
 
+import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.model.entities.GoogleBooks;
 import com.example.thejaswi.libraryapplication.model.entities.Librarian;
 import com.example.thejaswi.libraryapplication.model.entities.Login;
@@ -35,6 +36,10 @@ public interface APIService {
 
     @POST("librarian/register")
     Call<Librarian> librarianRegister(@Body Librarian librarian);
+
+
+    @POST("librarian/add/catalog")
+    Call<String> addBook(@Body Catalog catalog);
 
     @POST("patron/register")
     Call<Patron> patronRegister(@Body Patron patron);

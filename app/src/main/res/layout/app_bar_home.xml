@@ -4,54 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/appbar"
     tools:context="com.example.thejaswi.libraryapplication.view.activities.HomeActivity">
 
-   <!-- <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+    <!-- <android.support.design.widget.AppBarLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+         <android.support.v7.widget.Toolbar
+             android:id="@+id/toolbar"
+             android:layout_width="match_parent"
+             android:layout_height="?attr/actionBarSize"
+             android:background="?attr/colorPrimary"
+             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </android.support.design.widget.AppBarLayout> -->
+     </android.support.design.widget.AppBarLayout> -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
 
-            android:layout_height="match_parent">
+            android:layout_weight="1">
+
             <ImageView
-                android:layout_width="50dp"
-                android:padding="10dp"
                 android:id="@+id/search_icon"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/search"/>
+                android:padding="10dp"
+                android:src="@drawable/search" />
+
             <EditText
+                android:id="@+id/search_bar"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@android:color/white"
                 android:editable="false"
                 android:focusable="false"
-                android:id="@+id/search_bar"
-                android:hint="Search Catalog..."
-                android:layout_height="match_parent" />
+                android:hint="Search Catalog..." />
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/menu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:padding="5dp"
             android:layout_weight="0.2"
-            android:id="@+id/menu"
-            android:src="@drawable/menu"/>
+            android:padding="5dp"
+            android:src="@drawable/menu" />
 
     </LinearLayout>
 

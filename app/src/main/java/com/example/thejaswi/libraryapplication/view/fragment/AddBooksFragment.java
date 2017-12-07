@@ -83,6 +83,12 @@ public class AddBooksFragment extends android.app.Fragment implements View.OnCli
             @Override
             public void onClick(View v) {
 
+                Bundle b = new Bundle();
+                b.putString("NOISBN","");
+
+                BookFormFragment bf = new BookFormFragment();
+                bf.setArguments(b);
+                getFragmentManager().beginTransaction().add(R.id.container, bf).commit();
 
             }
         });
@@ -101,8 +107,6 @@ public class AddBooksFragment extends android.app.Fragment implements View.OnCli
             Log.e("IfCode  bool",""+bool);
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, 50);
         } else {
-
-
             Log.e("ELSECode","");
             IntentIntegrator scanIntegrator = new IntentIntegrator( getFragmentManager().findFragmentByTag("ADD_BOOK_FRAGMENT"));
             scanIntegrator.initiateScan();
@@ -121,41 +125,12 @@ public class AddBooksFragment extends android.app.Fragment implements View.OnCli
             Log.e("RESULT_SCAN", "Content" + scanContent);
             Log.e("RESULT_SCAN", "Format" + scanFormat);
 
+                Bundle b = new Bundle();
+                b.putString("ISBN",scanContent);
 
-
-            final Call<GoogleBooks> call = mAPIService.getISBNDetails("ISBN:"+ scanContent);
-            call.enqueue(new Callback<GoogleBooks>() {
-                @Override
-                public void onResponse(Call<GoogleBooks> call, Response<GoogleBooks> response) {
-
-                    //Display successful response results
-
-                    Log.e("GOOGLE_API",response.body()+"");
-
-                    if(response.code()==200){
-
-                        List<GoogleBooks.Item> allItems= response.body().getItems();
-                        Log.e("AUTHORS",""+allItems.get(0).getVolumeInfo().getAuthors().get(0));
-
-                    }
-                    //Hide progressbar when done
-                    // progressBar.setVisibility(View.INVISIBLE);
-
-                }
-
-                @Override
-                public void onFailure(Call<GoogleBooks> call, Throwable t) {
-                    // Display error message if the request fails
-                    Toast.makeText(getActivity().getApplicationContext(), "Error while Fetching books details", Toast.LENGTH_SHORT).show();
-                    //Hide progressbar when done
-                    //progressBar.setVisibility(View.INVISIBLE);
-                }
-
-
-            });
-
-
-
+                BookFormFragment bf = new BookFormFragment();
+                bf.setArguments(b);
+                getFragmentManager().beginTransaction().add(R.id.container, bf).commit();
 
         } else {
             Toast toast = Toast.makeText(getActivity().getApplicationContext(),
