@@ -1,5 +1,6 @@
 package com.example.thejaswi.libraryapplication;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.example.thejaswi.libraryapplication.view.activities.SearchActivity;
 import com.example.thejaswi.libraryapplication.view.fragment.BooksAdapter;
 
 public class CollectionDetails extends AppCompatActivity implements View.OnClickListener {
@@ -45,6 +47,7 @@ public class CollectionDetails extends AppCompatActivity implements View.OnClick
         list.setLayoutManager(new LinearLayoutManager(this));
         list.setAdapter(new BooksAdapter(this));
         findViewById(R.id.back).setOnClickListener(this);
+        findViewById(R.id.search).setOnClickListener(this);
     }
 
     @Override
@@ -53,6 +56,8 @@ public class CollectionDetails extends AppCompatActivity implements View.OnClick
             case R.id.back:
                 finish();
                 break;
+            case R.id.search:
+                startActivity(new Intent(this,SearchActivity.class));
         }
     }
 }

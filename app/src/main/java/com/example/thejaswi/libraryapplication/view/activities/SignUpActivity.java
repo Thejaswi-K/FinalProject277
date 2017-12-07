@@ -63,6 +63,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 if(password.getText().toString().length()>0) {
                     String PASSWORD_PAT = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~!$@#%^&\\-*_\\+=`\\|\\\\()\\{\\}\\[\\]:;'\"<>,.?/]).{10,20})";
                     if (password.getText().toString().matches(PASSWORD_PAT)) {
+                        progressDialog.show();
                         registerLibrarian();
                     } else {
                         password.setError("Password Weak!");
@@ -81,6 +82,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     if(password.getText().toString().length()>0) {
                         String PASSWORD_PAT = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~!$@#%^&\\-*_\\+=`\\|\\\\()\\{\\}\\[\\]:;'\"<>,.?/]).{10,20})";
                         if (password.getText().toString().matches(PASSWORD_PAT)) {
+                            progressDialog.show();
                             registerPatron();
                         } else {
                             password.setError("Password Weak!");
