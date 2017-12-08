@@ -4,14 +4,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import com.example.thejaswi.libraryapplication.R;
+import com.example.thejaswi.libraryapplication.Session;
+import com.example.thejaswi.libraryapplication.domain.api.APIService;
+import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
 import com.example.thejaswi.libraryapplication.model.entities.Cart;
+import com.example.thejaswi.libraryapplication.model.entities.Checkout;
 import com.example.thejaswi.libraryapplication.view.fragment.CartBooksAdapter;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CartActivity extends AppCompatActivity implements View.OnClickListener {
     RecyclerView clist;
+    APIService apiCheckoutService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,10 +30,41 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
         clist.setLayoutManager(new LinearLayoutManager(this));
         clist.setAdapter(new CartBooksAdapter(this));
         findViewById(R.id.bk).setOnClickListener(this);
+        apiCheckoutService = ServiceGenerator.createService(APIService.class);
+
         findViewById(R.id.go2check).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Checked out",Toast.LENGTH_SHORT).show();
+                Checkout checkout=new Checkout();
+                checkout.setCart(Cart.getCatalogArrayList());
+                checkout.setEmail(Session.getEmail());
+                final Call<String> call = apiCheckoutService.checkout(checkout);
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+
+                        Log.e("Check out result :", response.body() + "");
+
+                        if (response.code() == 200) {
+                            Toast.makeText(getApplicationContext(),"Checked out",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"Error Checking out",Toast.LENGTH_SHORT).show();
+                        }
+                        //Hide progressbar when done
+                        // progressBar.setVisibility(View.INVISIBLE);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+
+                        Toast.makeText(getApplicationContext(),"Error Checking out",Toast.LENGTH_SHORT).show();
+                    }
+
+
+                });
+
             }
         });
     }

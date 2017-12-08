@@ -17,7 +17,7 @@ public class Catalog {
     private String author;
     private String isbn;
     private String publisher;
-    private int call_number;
+    private Long call_number;
     private String year;
     private String location;
     private int number_of_copies;
@@ -87,11 +87,11 @@ public class Catalog {
         this.publisher = publisher;
     }
 
-    public int getCall_number() {
+    public long getCall_number() {
         return call_number;
     }
 
-    public void setCall_number(int call_number) {
+    public void setCall_number(long call_number) {
         this.call_number = call_number;
     }
 
