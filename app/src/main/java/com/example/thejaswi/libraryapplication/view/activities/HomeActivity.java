@@ -68,6 +68,7 @@ public class HomeActivity extends AppCompatActivity
         if (Session.getEmail().matches("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?(sjsu)\\.edu$")) {
             //lib
             navigationView.getMenu().getItem(2).setVisible(false);
+            navigationView.getMenu().getItem(4).setVisible(false);
         } else {
             //patron
             navigationView.getMenu().getItem(1).setVisible(false);
@@ -217,6 +218,8 @@ public class HomeActivity extends AppCompatActivity
             Log.e("logout","Clicked");
             dialog.show();
             logout();
+        } else if(id == R.id.returnbooks){
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
