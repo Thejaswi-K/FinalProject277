@@ -58,4 +58,6 @@ public interface APIService {
     @POST("catalog/_suggest")
     Call<ElasticSearchResult> elasticSearch(@Body ElasticQueryObject query);
 
+    @POST("catalog/_search")
+    Call<ElasticSearchResult> elasticSearchByLibrarian(@Query("q") String query);
 }

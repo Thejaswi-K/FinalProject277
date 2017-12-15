@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -47,6 +48,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     CheckBox addedByMe;
     APIService mAPIService;
     RecyclerView showResult;
+    Button submitSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         mAPIService = ElasticSearchServiceGenerator.createService(APIService.class);
 
+        submitSearch = (Button) findViewById(R.id.search_result_button);
         search=(EditText)findViewById(R.id.search);
         searchImage=(ImageView) findViewById(R.id.searchImage);
         filter_screen=(LinearLayout)findViewById(R.id.filter_screen);
@@ -71,6 +74,20 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
         addedByMe=(CheckBox)findViewById(R.id.addedByMe);
+
+        submitSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(addedByMe.isChecked()){
+
+                    searchAddedByMe();
+
+                }
+
+            }
+        });
+
         if(Session.getEmail().matches("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?(sjsu)\\.edu$")){
             addedByMe.setVisibility(View.VISIBLE);
         }else {
@@ -100,6 +117,75 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 elasticQuery(s.toString());
             }
         });
+    }
+
+    private void searchAddedByMe() {
+
+
+
+        final Call<ElasticSearchResult> call = mAPIService.elasticSearchByLibrarian("librarian.email:"+Session.getEmail());
+
+        call.enqueue(new Callback<ElasticSearchResult>() {
+            @Override
+            public void onResponse(Call<ElasticSearchResult> call, Response<ElasticSearchResult> response) {
+
+                //Display successful response results
+
+                Log.e("ELASTIC_SEARCH", response.body().getProductSuggest() + "");
+
+                if (response.code() == 200) {
+
+
+                    List<ElasticSearchResult.ProductSuggest> productSuggests = response.body().getProductSuggest();
+                    List<Catalog> allCatalog = new LinkedList<>();
+                    for(ElasticSearchResult.ProductSuggest pr : productSuggests){
+
+                        List<ElasticSearchResult.Option> options = pr.getOptions();
+
+                        for(ElasticSearchResult.Option option : options){
+
+                            allCatalog.add(option.getSource());
+                        }
+                    }
+
+//                    Log.e("All CATALOG", ""+allCatalog.get(0).getAuthor());
+
+
+                    showResult.setAdapter(new BooksAdapter(getApplicationContext(),allCatalog));
+
+
+//                    List<GoogleBooks.Item> allItems = response.body().getItems();
+//
+//                    Log.e("AUTHORS", "" + allItems.get(0).getVolumeInfo().getAuthors().get(0));
+//
+//
+//                    GoogleBooks.VolumeInfo item = getCorrectItem(response.body());
+//                    imageUrl = item.getImageLinks().getThumbnail();
+//                    setBookImage(imageUrl);
+//
+//                    bookTitle.setText(item.getTitle());
+//                    authorName.setText(item.getAuthors().toString());
+//                    yearOfPublication.setText(item.getPublishedDate());
+//                    publisher.setText(item.getPublisher());
+
+                }
+                //Hide progressbar when done
+                // progressBar.setVisibility(View.INVISIBLE);
+
+            }
+
+            @Override
+            public void onFailure(Call<ElasticSearchResult> call, Throwable t) {
+                // Display error message if the request fails
+                Toast.makeText(getApplicationContext(), "Error while Querying elastic search", Toast.LENGTH_SHORT).show();
+                //Hide progressbar when done
+                //progressBar.setVisibility(View.INVISIBLE);
+            }
+
+
+        });
+
+
     }
 
     private void elasticQuery(String s) {
@@ -134,7 +220,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     }
 
-                    Log.e("All CATALOG", ""+allCatalog.get(0).getAuthor());
+//                    Log.e("All CATALOG", ""+allCatalog.get(0).getAuthor());
 
 
                     showResult.setAdapter(new BooksAdapter(getApplicationContext(),allCatalog));
