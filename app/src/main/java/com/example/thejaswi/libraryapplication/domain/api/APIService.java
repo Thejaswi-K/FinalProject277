@@ -10,6 +10,8 @@ import com.example.thejaswi.libraryapplication.model.entities.Logout;
 import com.example.thejaswi.libraryapplication.model.entities.Patron;
 import com.example.thejaswi.libraryapplication.model.entities.Response;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -39,6 +41,11 @@ public interface APIService {
     @POST("librarian/register")
     Call<Librarian> librarianRegister(@Body Librarian librarian);
 
+    @POST("patron/cart")
+    Call<String> addToCart(@Body List<Catalog> catalogList);
+
+    @GET("patron/cart")
+    Call<List<Catalog>> getCart();
 
     @POST("librarian/add/catalog")
     Call<String> addBook(@Body Catalog catalog);

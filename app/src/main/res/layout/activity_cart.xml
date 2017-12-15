@@ -33,21 +33,22 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
 
-        <ImageView
+         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:padding="10dp"
             android:layout_weight="0.2"
             android:tint="@android:color/white"
+            android:id="@+id/go2check"
             android:src="@drawable/ic_shopping_cart_black_24dp"/>
-
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/cartlist"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"/>
+
 
 </LinearLayout>

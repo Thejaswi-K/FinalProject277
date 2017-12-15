@@ -1,6 +1,8 @@
 package com.example.thejaswi.libraryapplication.view.fragment;
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,16 +11,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.thejaswi.libraryapplication.R;
+import com.example.thejaswi.libraryapplication.model.entities.Book;
+import com.example.thejaswi.libraryapplication.model.entities.Cart;
+import com.example.thejaswi.libraryapplication.model.entities.Catalog;
+import com.example.thejaswi.libraryapplication.model.entities.Status;
+
+import org.joda.time.DateTime;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by thejaswi on 12/6/2017.
  */
 
-public class CartBooksAdapter extends RecyclerView.Adapter {
+public class CartBooksAdapter extends RecyclerView.Adapter<CartBooksAdapter.Holder> {
 
     Context context;
-    public CartBooksAdapter(Context context) {
+    List<Catalog> catalogs;
+    public CartBooksAdapter(Context context, List<Catalog> catalogSet) {
         this.context = context;
+        this.catalogs=catalogSet;
+    }
+
+    public CartBooksAdapter(Context context){
+        this.context=context;
     }
 
     @Override
@@ -28,18 +47,47 @@ public class CartBooksAdapter extends RecyclerView.Adapter {
         return new CartBooksAdapter.Holder(itemView);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(Holder holder, int position) {
+        holder.bookedDate.setText("Booking Date - "+new Date().toString());
+        DateTime dtOrg = new DateTime(new Date());
+        DateTime dtPlusThirty = dtOrg.plusDays(30);
+        Date due_date=dtPlusThirty.toDate();
 
+        holder.dueDate.setText("Due Date - "+due_date.toString());
+        holder.bookTitle.setText("Title - "+Cart.getCatalogArrayList().get(position).getTitle());
+        holder.author.setText("Author - "+Cart.getCatalogArrayList().get(position).getAuthor());
+        holder.publisher.setText("Publisher - "+Cart.getCatalogArrayList().get(position).getPublisher());
+        holder.isbn.setText("ISBN - "+Cart.getCatalogArrayList().get(position).getIsbn());
+
+        Catalog catalog=Cart.getCatalogArrayList().get(position);
+        String availability="";
+
+        for(Book book:catalog.getBookSet()){
+            if(book.getStatus()== Status.AVAILABLE){
+                availability+="AVAILABLE";
+                break;
+            }
+        }
+
+        if(!availability.equalsIgnoreCase("AVAILABLE")) {
+            availability += "UNAVAILABLE";
+            holder.bookedDate.setText("Booking Date - N/A");
+            holder.dueDate.setText("Due Date - N/A");
+        }
+
+        holder.availability.setText(availability);
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return Cart.getCatalogArrayList().size();
     }
+
     public class Holder extends RecyclerView.ViewHolder {
 
-        TextView dueDate,bookedDate,availability,name;
+        TextView dueDate,bookedDate,availability,bookTitle,isbn,publisher,author;
         ImageView bookimage;
         public Holder(View itemView) {
             super(itemView);
@@ -47,7 +95,11 @@ public class CartBooksAdapter extends RecyclerView.Adapter {
             dueDate=(TextView)itemView.findViewById(R.id.duedate);
             bookimage=(ImageView)itemView.findViewById(R.id.bookimage);
             availability = (TextView)itemView.findViewById((R.id.availability));
-            name = (TextView)itemView.findViewById(R.id.bookname);
+            bookTitle = (TextView)itemView.findViewById(R.id.bookname);
+            isbn = (TextView)itemView.findViewById(R.id.cartISBN);
+            publisher = (TextView)itemView.findViewById(R.id.cartPublisher);
+            author = (TextView)itemView.findViewById(R.id.cartAuthor);
+
         }
     }
 }
