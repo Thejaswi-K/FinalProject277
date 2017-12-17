@@ -20,7 +20,7 @@
                 android:contentDescription="@string/desc"
                 android:src="@drawable/ic_launcher_background" />
             <EditText
-                android:id="@+id/bokAuthor"
+                android:id="@+id/bookAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_design"
