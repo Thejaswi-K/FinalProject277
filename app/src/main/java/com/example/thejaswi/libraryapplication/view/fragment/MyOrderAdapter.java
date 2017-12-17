@@ -17,6 +17,12 @@ import com.example.thejaswi.libraryapplication.R;
 
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> {
     Context context;
+
+
+    public MyOrderAdapter(Context context) {
+        this.context = context;
+    }
+
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(context)

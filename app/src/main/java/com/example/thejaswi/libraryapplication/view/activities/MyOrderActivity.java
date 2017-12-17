@@ -17,7 +17,7 @@ public class MyOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_order);
         booksIssuedList =(RecyclerView) findViewById(R.id.orderlist);
         booksIssuedList.setLayoutManager(new LinearLayoutManager(this));
-        booksIssuedList.setAdapter(new MyOrderAdapter());
+        booksIssuedList.setAdapter(new MyOrderAdapter(this));
         findViewById(R.id.order_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
