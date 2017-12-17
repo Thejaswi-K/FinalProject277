@@ -23,7 +23,7 @@ import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText name, email, password, uid,last_name;
+    EditText name, email, password, uid,last_name, cpass;
     APIService mAPIService;
     ProgressDialog progressDialog;
 
@@ -38,6 +38,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         last_name=(EditText)findViewById(R.id.last_name);
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
+        cpass=(EditText) findViewById(R.id.cpassword);
         uid = (EditText) findViewById(R.id.Uid);
         findViewById(R.id.signup).setOnClickListener(this);
         findViewById(R.id.back2login).setOnClickListener(new View.OnClickListener() {
@@ -63,8 +64,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 if(password.getText().toString().length()>0) {
                     String PASSWORD_PAT = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~!$@#%^&\\-*_\\+=`\\|\\\\()\\{\\}\\[\\]:;'\"<>,.?/]).{10,20})";
                     if (password.getText().toString().matches(PASSWORD_PAT)) {
-                        progressDialog.show();
-                        registerLibrarian();
+                        if(cpass.getText().toString().equals(password.getText().toString())){
+                            progressDialog.show();
+                            registerLibrarian();
+                        }
+                        else{
+                            cpass.setError("Password not matched");
+                        }
                     } else {
                         password.setError("Password Weak!");
                     }
@@ -82,8 +88,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     if(password.getText().toString().length()>0) {
                         String PASSWORD_PAT = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~!$@#%^&\\-*_\\+=`\\|\\\\()\\{\\}\\[\\]:;'\"<>,.?/]).{10,20})";
                         if (password.getText().toString().matches(PASSWORD_PAT)) {
-                            progressDialog.show();
-                            registerPatron();
+                            if(cpass.getText().toString().equals(password.getText().toString())) {
+                                progressDialog.show();
+                                registerPatron();
+                            }
+                            else{
+                                cpass.setError("Password not matched");
+                            }
                         } else {
                             password.setError("Password Weak!");
                         }

@@ -56,6 +56,15 @@
             android:id="@+id/password"
             android:inputType="textPassword"
             android:layout_height="wrap_content" />
+        <EditText
+            android:layout_width="match_parent"
+            android:hint="Confirm Password"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_design"
+            android:padding="10dp"
+            android:id="@+id/cpassword"
+            android:inputType="textPassword"
+            android:layout_height="wrap_content" />
 
         <EditText
             android:layout_width="match_parent"
