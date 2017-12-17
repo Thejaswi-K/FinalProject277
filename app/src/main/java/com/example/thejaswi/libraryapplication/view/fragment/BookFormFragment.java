@@ -11,9 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.thejaswi.libraryapplication.R;
@@ -30,6 +32,7 @@ import com.example.thejaswi.libraryapplication.util.S3ImageUpload;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -55,7 +58,7 @@ public class BookFormFragment extends Fragment {
     EditText publisher;
     EditText numberOfCopies;
     EditText yearOfPublication;
-    EditText locationInTheLibrary;
+    Spinner locationInTheLibrary;
     EditText currentStatus;
     EditText keyWords;
     Button submitButton;
@@ -98,11 +101,20 @@ public class BookFormFragment extends Fragment {
         publisher = (EditText) view.findViewById(R.id.bookPublisher);
         numberOfCopies = (EditText) view.findViewById(R.id.bookCopies);
         yearOfPublication = (EditText) view.findViewById(R.id.bookPublishedYear);
-        locationInTheLibrary = (EditText) view.findViewById(R.id.bookLocation);
+        locationInTheLibrary = (Spinner) view.findViewById(R.id.bookLocation);
         currentStatus = (EditText) view.findViewById(R.id.bookCurrentStatus);
         keyWords = (EditText) view.findViewById(R.id.bookKeywords);
         submitButton = (Button) view.findViewById(R.id.bookSubmit);
 
+
+        List<String> list=new ArrayList<>();
+        list.add("Select Location");
+        list.add("floor 1");
+        list.add("floor 2");
+        list.add("floor 3");
+        list.add("floor 4");
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),R.layout.spinner_layout,R.id.text,list);
+        locationInTheLibrary.setAdapter(adapter);
 
         if (getArguments().containsKey("ISBN")) {
 
@@ -122,6 +134,7 @@ public class BookFormFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                if(locationInTheLibrary.getSelectedItemPosition()!=0){
                 Catalog item = new Catalog();
 
                 item.setAuthor(authorName.getText().toString());
@@ -131,14 +144,14 @@ public class BookFormFragment extends Fragment {
                 item.setPublisher(publisher.getText().toString());
                 item.setNumber_of_copies(Integer.parseInt(numberOfCopies.getText().toString()));
                 item.setYear(yearOfPublication.getText().toString());
-                item.setLocation(locationInTheLibrary.getText().toString());
+                item.setLocation(locationInTheLibrary.getSelectedItem().toString());
                 item.setKeywords(getKeywords(keyWords.getText().toString()));
 
                 if (getArguments().containsKey("ISBN")) {
 
                     submitResult(item);
 
-                } else{
+                } else {
                     try {
 
                         imageUrl = uploadImage();
@@ -152,7 +165,9 @@ public class BookFormFragment extends Fragment {
                     item.setImage_url(imageUrl);
                     submitResult(item);
                 }
-
+            }else {
+                    Toast.makeText(getActivity(), "Please select book location", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

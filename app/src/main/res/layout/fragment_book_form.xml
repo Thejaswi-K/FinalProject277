@@ -36,6 +36,15 @@
                 android:padding="5dip"
                 android:layout_margin="10dp"/>
             <EditText
+                android:id="@+id/bookISBN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_design"
+                android:hint="ISBN"
+                android:padding="5dip"
+                android:layout_margin="10dp"
+                />
+            <EditText
                 android:id="@+id/bookCallNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,22 +68,31 @@
                 android:background="@drawable/edit_text_design"
                 android:hint="@string/published_year"
                 android:padding="5dip"
-                android:layout_margin="10dp"/>
-            <EditText
-                android:id="@+id/bookLocation"
+                android:layout_margin="10dp"
+                android:inputType="phone"
+                android:digits="0123456789"
+                android:maxLength="4"/>
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:background="@drawable/edit_text_design"
-                android:hint="@string/location"
-                android:padding="5dip"
-                android:layout_margin="10dp"/>
+                android:layout_height="wrap_content" >
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:id="@+id/bookLocation"
+                    android:layout_height="match_parent">
+
+                </Spinner>
+            </RelativeLayout>
             <EditText
                 android:id="@+id/bookCopies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_design"
                 android:hint="@string/copies"
+                android:inputType="phone"
                 android:padding="5dip"
+                android:digits="0123456789"
                 android:layout_margin="10dp"/>
             <EditText
                 android:id="@+id/bookCurrentStatus"
