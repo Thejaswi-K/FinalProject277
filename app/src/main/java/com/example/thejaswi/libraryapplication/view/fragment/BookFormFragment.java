@@ -17,11 +17,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.thejaswi.libraryapplication.R;
+import com.example.thejaswi.libraryapplication.Session;
 import com.example.thejaswi.libraryapplication.domain.api.APIService;
 import com.example.thejaswi.libraryapplication.domain.api.ISBNServiceGenerator;
 import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.model.entities.GoogleBooks;
+import com.example.thejaswi.libraryapplication.model.entities.PostCatalog;
 import com.example.thejaswi.libraryapplication.util.AccessPermissions;
 import com.example.thejaswi.libraryapplication.util.AwsUpload;
 import com.example.thejaswi.libraryapplication.util.S3ImageUpload;
@@ -159,8 +161,12 @@ public class BookFormFragment extends Fragment {
 
     private void submitResult(Catalog item) {
 
+        PostCatalog postCatalog=new PostCatalog();
+        postCatalog.setCatalog(item);
+        postCatalog.setEmail(Session.getEmail());
+        System.out.println("Post Catalog Email :"+postCatalog.getEmail() + " Catalog :"+postCatalog.getCatalog());
 
-        final Call<String> call = addBookAPIService.addBook(item);
+        final Call<String> call = addBookAPIService.addBook(postCatalog);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

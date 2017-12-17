@@ -82,7 +82,9 @@ public class CartBooksAdapter extends RecyclerView.Adapter<CartBooksAdapter.Hold
 
     @Override
     public int getItemCount() {
-        return Cart.getCatalogArrayList().size();
+        if(Cart.getCatalogArrayList()!=null)
+            return Cart.getCatalogArrayList().size();
+        return 0;
     }
 
     public class Holder extends RecyclerView.ViewHolder {

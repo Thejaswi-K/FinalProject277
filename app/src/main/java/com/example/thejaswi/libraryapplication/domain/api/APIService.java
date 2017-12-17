@@ -1,6 +1,7 @@
 package com.example.thejaswi.libraryapplication.domain.api;
 
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
+import com.example.thejaswi.libraryapplication.model.entities.Checkout;
 import com.example.thejaswi.libraryapplication.model.entities.ElasticQueryObject;
 import com.example.thejaswi.libraryapplication.model.entities.ElasticSearchResult;
 import com.example.thejaswi.libraryapplication.model.entities.GoogleBooks;
@@ -8,6 +9,7 @@ import com.example.thejaswi.libraryapplication.model.entities.Librarian;
 import com.example.thejaswi.libraryapplication.model.entities.Login;
 import com.example.thejaswi.libraryapplication.model.entities.Logout;
 import com.example.thejaswi.libraryapplication.model.entities.Patron;
+import com.example.thejaswi.libraryapplication.model.entities.PostCatalog;
 import com.example.thejaswi.libraryapplication.model.entities.Response;
 
 import java.util.List;
@@ -48,7 +50,10 @@ public interface APIService {
     Call<List<Catalog>> getCart();
 
     @POST("librarian/add/catalog")
-    Call<String> addBook(@Body Catalog catalog);
+    Call<String> addBook(@Body PostCatalog catalog);
+
+    @POST("patron/checkout")
+    Call<String> checkout(@Body Checkout checkout);
 
     @POST("patron/register")
     Call<Patron> patronRegister(@Body Patron patron);
