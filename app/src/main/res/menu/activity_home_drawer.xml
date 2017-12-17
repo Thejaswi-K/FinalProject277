@@ -17,13 +17,14 @@
             android:icon="@drawable/ic_shopping_cart_black_24dp"
             android:title="Cart" />
         <item
+            android:id="@+id/myorder"
+            android:title="My Order"
+            android:icon="@drawable/ic_library_books_black_24dp"/>
+        <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_exit_to_app_black_24dp"
             android:title="Logout" />
-        <item
-            android:id="@+id/returnbooks"
-            android:title="Return books"
-            android:icon="@drawable/ic_library_books_black_24dp"/>
+
     </group>
 
 

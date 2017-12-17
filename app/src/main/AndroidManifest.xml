@@ -42,7 +42,7 @@
         <activity android:name=".CollectionDetails" />
         <activity android:name=".view.activities.SearchActivity" />
         <activity android:name=".view.activities.CartActivity" />
-        <activity android:name=".view.activities.BooksIssuedActivity"></activity>
+        <activity android:name=".view.activities.MyOrderActivity" />
     </application>
 
 </manifest>

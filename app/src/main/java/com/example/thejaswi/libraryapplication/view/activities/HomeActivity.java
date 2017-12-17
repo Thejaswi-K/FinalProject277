@@ -68,7 +68,8 @@ public class HomeActivity extends AppCompatActivity
         if (Session.getEmail().matches("^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\\.)?[a-zA-Z]+\\.)?(sjsu)\\.edu$")) {
             //lib
             navigationView.getMenu().getItem(2).setVisible(false);
-            navigationView.getMenu().getItem(4).setVisible(false);
+            navigationView.getMenu().getItem(3).setVisible(false);
+
         } else {
             //patron
             navigationView.getMenu().getItem(1).setVisible(false);
@@ -214,12 +215,12 @@ public class HomeActivity extends AppCompatActivity
             getFragmentManager().beginTransaction().add(R.id.container, new AddBooksFragment(),"ADD_BOOK_FRAGMENT").commit();
         } else if (id == R.id.cart) {
             startActivity(new Intent(this,CartActivity.class));
+        } else if(id == R.id.myorder){
+            startActivity(new Intent(this, MyOrderActivity.class));
         } else if (id == R.id.logout) {
             Log.e("logout","Clicked");
             dialog.show();
             logout();
-        } else if(id == R.id.returnbooks){
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
