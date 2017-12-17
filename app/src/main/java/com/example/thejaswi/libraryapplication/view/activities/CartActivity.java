@@ -12,8 +12,11 @@ import com.example.thejaswi.libraryapplication.Session;
 import com.example.thejaswi.libraryapplication.domain.api.APIService;
 import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
 import com.example.thejaswi.libraryapplication.model.entities.Cart;
+import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.model.entities.Checkout;
 import com.example.thejaswi.libraryapplication.view.fragment.CartBooksAdapter;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,13 +25,20 @@ import retrofit2.Response;
 public class CartActivity extends AppCompatActivity implements View.OnClickListener {
     RecyclerView clist;
     APIService apiCheckoutService;
+    List<Catalog> catalogs = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         clist = (RecyclerView) findViewById(R.id.cartlist);
         clist.setLayoutManager(new LinearLayoutManager(this));
-        clist.setAdapter(new CartBooksAdapter(this));
+
+        Log.e("CART_ACTIVITY","get request for carts");
+        catalogs = Cart.getCatalogArrayList();
+
+        clist.setAdapter(new CartBooksAdapter(this,catalogs));
+
+
         findViewById(R.id.bk).setOnClickListener(this);
         apiCheckoutService = ServiceGenerator.createService(APIService.class);
 
@@ -71,7 +81,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        clist.setAdapter(new CartBooksAdapter(getApplicationContext(), Cart.getCatalogArrayList()));
+       // clist.setAdapter(new CartBooksAdapter(this,Cart.getCatalogArrayList()));
         switch(view.getId()){
             case R.id.bk:
                 finish();

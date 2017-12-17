@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,16 +23,13 @@ import com.example.thejaswi.libraryapplication.domain.api.APIService;
 import com.example.thejaswi.libraryapplication.domain.api.ISBNServiceGenerator;
 import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
-import com.example.thejaswi.libraryapplication.model.entities.GoogleBooks;
 import com.example.thejaswi.libraryapplication.model.entities.PostCatalog;
 import com.example.thejaswi.libraryapplication.util.AccessPermissions;
 import com.example.thejaswi.libraryapplication.util.AwsUpload;
-import com.example.thejaswi.libraryapplication.util.S3ImageUpload;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -42,10 +40,10 @@ import retrofit2.Response;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * Created by Mak on 12/6/17.
+ * Created by Mak on 12/16/17.
  */
 
-public class BookFormFragment extends Fragment {
+public class UpdateBookFragment extends Fragment {
 
 
     ImageView bookImage;
@@ -58,33 +56,35 @@ public class BookFormFragment extends Fragment {
     EditText locationInTheLibrary;
     EditText currentStatus;
     EditText keyWords;
+    EditText addNumberOfCopies;
     Button submitButton;
     String imageUrl;
+    Boolean imageUpdated;
     String isbn;
     APIService mAPIService;
     APIService addBookAPIService;
     Uri path;
+    int catalog_id;
 
     final private int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE =899;
     private int PHOTO_SELECTED = 777;
     private Bitmap bitMap;
 
+    Catalog catalog;
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mAPIService = ISBNServiceGenerator.createService(APIService.class);
         addBookAPIService = ServiceGenerator.createService(APIService.class);
-
-
-
-
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+//        return super.onCreateView(inflater, container, savedInstanceState);
+
         if (container != null) {
             container.removeAllViews();
         }
@@ -97,30 +97,53 @@ public class BookFormFragment extends Fragment {
         callNumber = (EditText) view.findViewById(R.id.bookCallNumber);
         publisher = (EditText) view.findViewById(R.id.bookPublisher);
         numberOfCopies = (EditText) view.findViewById(R.id.bookCopies);
+        addNumberOfCopies = (EditText) view.findViewById(R.id.addBookCopies);
         yearOfPublication = (EditText) view.findViewById(R.id.bookPublishedYear);
         locationInTheLibrary = (EditText) view.findViewById(R.id.bookLocation);
         currentStatus = (EditText) view.findViewById(R.id.bookCurrentStatus);
         keyWords = (EditText) view.findViewById(R.id.bookKeywords);
         submitButton = (Button) view.findViewById(R.id.bookSubmit);
+        imageUpdated =false;
 
 
-        if (getArguments().containsKey("ISBN")) {
+        if(getArguments().containsKey("updateBook")){
 
-            fillForm(getArguments().getString("ISBN"));
+            Catalog book = (Catalog) getArguments().getSerializable("updateBook");
+
+            numberOfCopies.setVisibility(View.INVISIBLE);
+            addNumberOfCopies.setVisibility(View.VISIBLE);
+            addNumberOfCopies.setText(Integer.toString(book.getCatalog_id()));
+            authorName.setText(book.getAuthor());
+            bookTitle.setText(book.getTitle());
+            callNumber.setText(Long.toString(book.getCall_number()));
+            publisher.setText( book.getPublisher());
+            yearOfPublication.setText( book.getYear());
+            locationInTheLibrary.setText( book.getLocation());
+            keyWords.setText(showKeywords(book.getKeywords()));
+            imageUrl=book.getImage_url();
+            setBookImage(imageUrl);
+            catalog_id = book.getCatalog_id();
         }
+
+
 
         bookImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+            Log.e("UPDATE_BOOK","IMAGE CLICKED");
 
                 checkPermission();
 
             }
         });
 
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Log.e("UPDATE_BOOK","SUBMIT CLICKED");
 
                 Catalog item = new Catalog();
 
@@ -129,12 +152,14 @@ public class BookFormFragment extends Fragment {
                 item.setImage_url(imageUrl);
                 item.setCall_number(Integer.parseInt(callNumber.getText().toString()));
                 item.setPublisher(publisher.getText().toString());
-                item.setNumber_of_copies(Integer.parseInt(numberOfCopies.getText().toString()));
+                item.setNumber_of_copies(Integer.parseInt(addNumberOfCopies.getText().toString()));
                 item.setYear(yearOfPublication.getText().toString());
                 item.setLocation(locationInTheLibrary.getText().toString());
                 item.setKeywords(getKeywords(keyWords.getText().toString()));
+                item.setCatalog_id(catalog_id);
 
-                if (getArguments().containsKey("ISBN")) {
+
+                if (!imageUpdated) {
 
                     submitResult(item);
 
@@ -156,7 +181,16 @@ public class BookFormFragment extends Fragment {
             }
         });
 
+
+
         return view;
+
+    }
+
+    public void setBookImage(String url) {
+
+        Picasso.with(getActivity().getApplicationContext()).load(url).into(bookImage);
+
     }
 
     private void submitResult(Catalog item) {
@@ -199,6 +233,18 @@ public class BookFormFragment extends Fragment {
     }
 
 
+    public String showKeywords(Set<String> keywords){
+
+        String result ="";
+
+        for( String word : keywords){
+
+            result+=word+",";
+        }
+
+        return  result;
+    }
+
     public Set<String> getKeywords(String s) {
 
         Set<String> set = new HashSet<String>();
@@ -213,95 +259,20 @@ public class BookFormFragment extends Fragment {
         return set;
     }
 
-    public void fillForm(String isbn) {
-
-        this.isbn = isbn;
-
-        final Call<GoogleBooks> call = mAPIService.getISBNDetails("ISBN:" + isbn);
-        call.enqueue(new Callback<GoogleBooks>() {
-            @Override
-            public void onResponse(Call<GoogleBooks> call, Response<GoogleBooks> response) {
-
-                //Display successful response results
-
-                Log.e("GOOGLE_API", response.body() + "");
-
-                if (response.code() == 200) {
-
-                    List<GoogleBooks.Item> allItems = response.body().getItems();
-
-                    Log.e("AUTHORS", "" + allItems.get(0).getVolumeInfo().getAuthors().get(0));
 
 
-                    GoogleBooks.VolumeInfo item = getCorrectItem(response.body());
-                    imageUrl = item.getImageLinks().getThumbnail();
-                    setBookImage(imageUrl);
 
-                    bookTitle.setText(item.getTitle());
-                    authorName.setText(item.getAuthors().toString());
-                    yearOfPublication.setText(item.getPublishedDate());
-                    publisher.setText(item.getPublisher());
+    public String uploadImage() throws ExecutionException, InterruptedException {
 
-                }
-                //Hide progressbar when done
-                // progressBar.setVisibility(View.INVISIBLE);
+        AwsUpload awsUpload = new AwsUpload(getActivity().getApplicationContext(),getActivity(),path);
 
-            }
-
-            @Override
-            public void onFailure(Call<GoogleBooks> call, Throwable t) {
-                // Display error message if the request fails
-                Toast.makeText(getActivity().getApplicationContext(), "Error while Fetching books details", Toast.LENGTH_SHORT).show();
-                //Hide progressbar when done
-                //progressBar.setVisibility(View.INVISIBLE);
-            }
-
-        });
-
+        imageUpdated =true;
+        return awsUpload.execute().get();
     }
 
-
-    public String getAuthors(List<String> arr){
-
-        String res ="";
-        for(int i =0 ; i< arr.size(); i++){
-
-            res+=arr.get(i)+",";
-        }
-        return res;
-    }
-    public void setBookImage(String url) {
-
-        Picasso.with(getActivity().getApplicationContext()).load(url).into(bookImage);
-
-    }
-
-    public GoogleBooks.VolumeInfo getCorrectItem(GoogleBooks gb) {
-
-        List<GoogleBooks.Item> items = gb.getItems();
-
-        Log.e("ISBN_VALUE",isbn);
-        for (int i = 0; i < items.size(); i++) {
-
-            GoogleBooks.VolumeInfo volumeInfo = items.get(i).getVolumeInfo();
-            List<GoogleBooks.IndustryIdentifier> identifiers = volumeInfo.getIndustryIdentifiers();
-
-            for (GoogleBooks.IndustryIdentifier id : identifiers) {
-
-                Log.e("IDENTIFIER",id.getIdentifier());
-                if ((id.getIdentifier()).equals(isbn))
-                    return volumeInfo;
-            }
-
-        }
-
-        return null;
-    }
-
-
-  // upload image to s3
 
     public void checkPermission(){
+        Log.e("UPDATE_BOOK","Image Permissions");
 
         AccessPermissions accessPermissions = new AccessPermissions(getActivity().getApplicationContext(), getActivity(),MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
         if (accessPermissions.validateStorageAccessPermission()){
@@ -312,6 +283,8 @@ public class BookFormFragment extends Fragment {
     }
 
     public void selectImage() {
+
+        Log.e("UPDATE_BOOK","Image selectred");
 
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -340,13 +313,6 @@ public class BookFormFragment extends Fragment {
     }
 
 
-    public String uploadImage() throws ExecutionException, InterruptedException {
-
-        AwsUpload awsUpload = new AwsUpload(getActivity().getApplicationContext(),getActivity(),path);
-
-        return awsUpload.execute().get();
-    }
-
 
 
     @Override
@@ -373,7 +339,6 @@ public class BookFormFragment extends Fragment {
             // permissions this app might request
         }
     }
-
 
 
 

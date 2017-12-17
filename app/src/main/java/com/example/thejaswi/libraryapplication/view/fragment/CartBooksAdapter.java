@@ -56,12 +56,12 @@ public class CartBooksAdapter extends RecyclerView.Adapter<CartBooksAdapter.Hold
         Date due_date=dtPlusThirty.toDate();
 
         holder.dueDate.setText("Due Date - "+due_date.toString());
-        holder.bookTitle.setText("Title - "+Cart.getCatalogArrayList().get(position).getTitle());
-        holder.author.setText("Author - "+Cart.getCatalogArrayList().get(position).getAuthor());
-        holder.publisher.setText("Publisher - "+Cart.getCatalogArrayList().get(position).getPublisher());
-        holder.isbn.setText("ISBN - "+Cart.getCatalogArrayList().get(position).getIsbn());
+        holder.bookTitle.setText("Title - "+catalogs.get(position).getTitle());
+        holder.author.setText("Author - "+catalogs.get(position).getAuthor());
+        holder.publisher.setText("Publisher - "+catalogs.get(position).getPublisher());
+        holder.isbn.setText("ISBN - "+catalogs.get(position).getIsbn());
 
-        Catalog catalog=Cart.getCatalogArrayList().get(position);
+        Catalog catalog=catalogs.get(position);
         String availability="";
 
         for(Book book:catalog.getBookSet()){
@@ -82,8 +82,8 @@ public class CartBooksAdapter extends RecyclerView.Adapter<CartBooksAdapter.Hold
 
     @Override
     public int getItemCount() {
-        if(Cart.getCatalogArrayList()!=null)
-            return Cart.getCatalogArrayList().size();
+        if(catalogs !=null)
+            return catalogs.size();
         return 0;
     }
 

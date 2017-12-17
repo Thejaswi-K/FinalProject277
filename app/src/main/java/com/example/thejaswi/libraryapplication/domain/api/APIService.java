@@ -16,10 +16,12 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -49,8 +51,11 @@ public interface APIService {
     @GET("patron/cart")
     Call<List<Catalog>> getCart();
 
-    @POST("librarian/add/catalog")
+    @POST("librarian/catalog")
     Call<String> addBook(@Body PostCatalog catalog);
+
+    @DELETE("librarian/catalog/{id}")
+    Call<String> deleteBook(@Path("id") String id);
 
     @POST("patron/checkout")
     Call<String> checkout(@Body Checkout checkout);
@@ -67,9 +72,9 @@ public interface APIService {
     @GET("librarian/verified")
     Call<Boolean> librarianVerify(@Query( "email") String email);
 
-    @POST("catalog/_suggest")
+    @POST("library/_suggest")
     Call<ElasticSearchResult> elasticSearch(@Body ElasticQueryObject query);
 
-    @POST("catalog/_search")
+    @POST("library/_search")
     Call<ElasticSearchResult> elasticSearchByLibrarian(@Query("q") String query);
 }

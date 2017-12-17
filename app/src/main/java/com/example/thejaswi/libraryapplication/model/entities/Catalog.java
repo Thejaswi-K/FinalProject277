@@ -1,5 +1,6 @@
 package com.example.thejaswi.libraryapplication.model.entities;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ import java.util.Set;
  * Created by Mak on 12/5/17.
  */
 
-public class Catalog {
+public class Catalog implements Serializable{
 
     private int catalog_id;
     Set<Book> bookSet;

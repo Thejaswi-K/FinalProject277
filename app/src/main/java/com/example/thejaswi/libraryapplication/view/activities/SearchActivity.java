@@ -151,7 +151,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 //                    Log.e("All CATALOG", ""+allCatalog.get(0).getAuthor());
 
 
-                    showResult.setAdapter(new BooksAdapter(getApplicationContext(),allCatalog));
+                    showResult.setAdapter(new BooksAdapter(getApplicationContext(),allCatalog, SearchActivity.this));
 
 
 //                    List<GoogleBooks.Item> allItems = response.body().getItems();
@@ -223,7 +223,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 //                    Log.e("All CATALOG", ""+allCatalog.get(0).getAuthor());
 
 
-                    showResult.setAdapter(new BooksAdapter(getApplicationContext(),allCatalog));
+                    showResult.setAdapter(new BooksAdapter(getApplicationContext(),allCatalog,SearchActivity.this));
 
 
 //                    List<GoogleBooks.Item> allItems = response.body().getItems();

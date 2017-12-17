@@ -1,7 +1,11 @@
 package com.example.thejaswi.libraryapplication.view.fragment;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,12 +17,18 @@ import android.widget.Toast;
 
 import com.example.thejaswi.libraryapplication.R;
 import com.example.thejaswi.libraryapplication.Session;
+import com.example.thejaswi.libraryapplication.domain.api.APIService;
+import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
 import com.example.thejaswi.libraryapplication.model.entities.Cart;
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.view.activities.CartActivity;
 import com.example.thejaswi.libraryapplication.view.activities.SearchActivity;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -29,8 +39,9 @@ import java.util.List;
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
 
     Context context;
-
+    Activity activity;
     List<Catalog> catalog;
+    APIService bookAPIService;
 
     public BooksAdapter(Context context) {
         this.context = context;
@@ -40,6 +51,14 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
         this.context = context;
         this.catalog = catalog;
     }
+
+
+    public BooksAdapter(Context context, List<Catalog> catalog, Activity activity) {
+        this.context = context;
+        this.catalog = catalog;
+        this.activity=activity;
+    }
+
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -94,6 +113,97 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
 //                    context.startActivity(new Intent(context,CartActivity.class));
                 }
             });
+
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    Bundle b = new Bundle();
+                     b.putSerializable("updateBook",catalog.get(getAdapterPosition()));
+                    UpdateBookFragment bf = new UpdateBookFragment();
+                    bf.setArguments(b);
+                    activity.getFragmentManager().beginTransaction().add(R.id.background, bf).commit();
+
+                }
+            });
+
+
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    bookAPIService = ServiceGenerator.createService(APIService.class);
+
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(activity);
+                    builder1.setMessage("Are you sure, you want to delete this book");
+                    builder1.setCancelable(true);
+
+                    builder1.setPositiveButton(
+                            "Yes",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    final Call<String> call = bookAPIService.deleteBook(Integer.toString(catalog.get(getAdapterPosition()).getCatalog_id()));
+
+                                    call.enqueue(new Callback<String>() {
+                                        @Override
+                                        public void onResponse(Call<String> call, Response<String> response) {
+
+                                            //Display successful response results
+
+                                            Log.e("DELETED_BOOK", response.body() + "");
+
+                                            if (response.code() == 200) {
+
+                                                Toast.makeText(activity.getApplicationContext(), "Successfully Deleted book", Toast.LENGTH_SHORT).show();
+
+                                            }
+                                            //Hide progressbar when done
+                                            // progressBar.setVisibility(View.INVISIBLE);
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<String> call, Throwable t) {
+                                            // Display error message if the request fails
+                                            Toast.makeText(activity.getApplicationContext(), "Error while Fetching Deleting book ", Toast.LENGTH_SHORT).show();
+                                            //Hide progressbar when done
+                                            //progressBar.setVisibility(View.INVISIBLE);
+                                        }
+
+
+                                    });
+
+
+                                    dialog.cancel();
+                                }
+                            });
+
+                    builder1.setNegativeButton(
+                            "No",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+
+
+//                    Bundle b = new Bundle();
+//                    b.putSerializable("updateBook",catalog.get(getAdapterPosition()));
+//                    UpdateBookFragment bf = new UpdateBookFragment();
+//                    bf.setArguments(b);
+//                    activity.getFragmentManager().beginTransaction().add(R.id.background, bf).commit();
+
+
+
+
+                }
+            });
+
         }
     }
 }

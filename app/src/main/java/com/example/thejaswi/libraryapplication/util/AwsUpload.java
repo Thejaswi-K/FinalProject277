@@ -43,20 +43,17 @@ public class AwsUpload extends AsyncTask<String, ProgressDialog, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        pg = new ProgressDialog(activity);
-        pg.setMessage("Processing request");
-        pg.show();
+//        pg = new ProgressDialog(activity);
+//        pg.setMessage("Processing request");
     }
 
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        pg.dismiss();
     }
 
     @Override
     protected String doInBackground(String... strings) {
-
         AmazonS3 s3 = new AmazonS3Client(Identity());
         s3.setRegion(Region.getRegion(Regions.US_EAST_2));
         mediaPath =  new MediaPath(context);
