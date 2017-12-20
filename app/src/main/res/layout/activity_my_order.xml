@@ -29,6 +29,7 @@
                 android:gravity="start|center_vertical"
                 android:text="My Books"
                 android:textStyle="bold"
+                android:id="@+id/top_label"
                 android:textSize="20sp"
                 android:textColor="@android:color/white"
                 android:layout_height="match_parent" />

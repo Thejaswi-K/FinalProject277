@@ -57,6 +57,15 @@ public interface APIService {
     @PUT("patron/books/return")
     Call<List<Fine>> returnBooks(@Body List<BookIssuedInfo> bookIssuedInfos);
 
+    @GET("patron/books/history")
+    Call<List<BookIssuedInfo>> getOrderHistory();
+
+    @GET("patron/books/reserved")
+    Call<List<Catalog>> getReservedCatalogs();
+
+    @GET("patron/books/waitlist")
+    Call<List<Catalog>> getWaitlist();
+
     @PUT("patron/renew/{id}")
     Call<String> renewBook(@Path("id") int id);
 

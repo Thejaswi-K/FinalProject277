@@ -218,7 +218,14 @@ public class HomeActivity extends AppCompatActivity
             startActivity(new Intent(this,CartActivity.class));
         } else if(id == R.id.myorder){
             startActivity(new Intent(this, MyOrderActivity.class));
-        } else if (id == R.id.logout) {
+        }
+        else if(id==R.id.myreservations){
+            startActivity(new Intent(this,MyReservationActivity.class));
+        }
+        else if(id==R.id.mywaitlist){
+            startActivity(new Intent(this,MyWaitlistActivity.class));
+        }
+        else if (id == R.id.logout) {
             Log.e("logout","Clicked");
             dialog.show();
             logout();
