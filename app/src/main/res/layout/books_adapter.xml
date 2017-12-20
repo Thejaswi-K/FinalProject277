@@ -14,7 +14,9 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/book_cover"/>
+                android:id="@+id/bookCover"
+                android:src="@drawable/book_placeholder"
+                />
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,6 +93,7 @@
             android:textStyle="bold"
             android:layout_margin="5dp"
             android:textColor="@color/colorPrimaryDark"
+            android:id="@+id/mainBookTitle"
             android:text="Big Ranch: Android Programming 3rd Edition"/>
 
     </LinearLayout>

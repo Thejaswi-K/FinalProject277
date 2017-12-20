@@ -16,6 +16,7 @@ import com.example.thejaswi.libraryapplication.domain.api.APIService;
 import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
 import com.example.thejaswi.libraryapplication.model.entities.BookIssuedInfo;
 import com.example.thejaswi.libraryapplication.view.activities.MyOrderActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -78,7 +79,18 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> 
         holder.bookPublisher.setText("Publisher :"+booksCatalogList.get(position).getPublisher());
         holder.bookYear.setText("Year :"+booksCatalogList.get(position).getYear());
 
+        setBookImage( booksCatalogList.get(position).getImage_url(), holder.bookimage);
     }
+
+
+
+    public void setBookImage(String url,ImageView bookImage) {
+
+        if(url!=null)
+            Picasso.with(context).load(url).into(bookImage);
+
+    }
+
 
     @Override
     public int getItemCount() {

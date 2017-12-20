@@ -71,6 +71,7 @@ public class BookFormFragment extends Fragment {
     final private int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE =899;
     private int PHOTO_SELECTED = 777;
     private Bitmap bitMap;
+    boolean imageSelected = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -154,7 +155,8 @@ public class BookFormFragment extends Fragment {
                 } else {
                     try {
 
-                        imageUrl = uploadImage();
+                        if( imageSelected)
+                        {imageUrl = uploadImage();}
 
                     } catch (ExecutionException e) {
                         e.printStackTrace();
@@ -347,6 +349,7 @@ public class BookFormFragment extends Fragment {
                 bitMap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), path);
                 bookImage.setImageBitmap(bitMap);
                 bookImage.setVisibility(View.VISIBLE);
+                imageSelected = true;
 
             } catch (IOException e) {
                 e.printStackTrace();
