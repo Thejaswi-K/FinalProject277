@@ -59,7 +59,7 @@ public class BookFormFragment extends Fragment {
     EditText numberOfCopies;
     EditText yearOfPublication;
     Spinner locationInTheLibrary;
-    EditText currentStatus;
+    EditText category;
     EditText keyWords;
     Button submitButton;
     String imageUrl;
@@ -102,7 +102,7 @@ public class BookFormFragment extends Fragment {
         numberOfCopies = (EditText) view.findViewById(R.id.bookCopies);
         yearOfPublication = (EditText) view.findViewById(R.id.bookPublishedYear);
         locationInTheLibrary = (Spinner) view.findViewById(R.id.bookLocation);
-        currentStatus = (EditText) view.findViewById(R.id.bookCurrentStatus);
+        category = (EditText) view.findViewById(R.id.bookCategory);
         keyWords = (EditText) view.findViewById(R.id.bookKeywords);
         submitButton = (Button) view.findViewById(R.id.bookSubmit);
 

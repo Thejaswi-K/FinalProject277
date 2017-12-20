@@ -33,14 +33,15 @@
                 android:layout_height="match_parent" />
         </LinearLayout>
 
-         <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:layout_weight="0.2"
-            android:tint="@android:color/white"
-            android:id="@+id/go2check"
-            android:src="@drawable/ic_shopping_cart_black_24dp"/>
+         <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:layout_weight="0.6"
+                android:textColor="@android:color/white"
+                android:id="@+id/go2check"
+                android:text="Check Out"
+                android:textSize="25dp" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

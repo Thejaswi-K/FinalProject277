@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +45,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by Mak on 12/16/17.
  */
 
+
 public class UpdateBookFragment extends Fragment {
 
 
@@ -54,7 +57,7 @@ public class UpdateBookFragment extends Fragment {
     EditText numberOfCopies;
     EditText yearOfPublication;
     EditText locationInTheLibrary;
-    EditText currentStatus;
+    EditText category;
     EditText keyWords;
     EditText addNumberOfCopies;
     Button submitButton;
@@ -100,7 +103,7 @@ public class UpdateBookFragment extends Fragment {
         addNumberOfCopies = (EditText) view.findViewById(R.id.addBookCopies);
         yearOfPublication = (EditText) view.findViewById(R.id.bookPublishedYear);
         locationInTheLibrary = (EditText) view.findViewById(R.id.bookLocation);
-        currentStatus = (EditText) view.findViewById(R.id.bookCurrentStatus);
+        category = (EditText) view.findViewById(R.id.bookCategory);
         keyWords = (EditText) view.findViewById(R.id.bookKeywords);
         submitButton = (Button) view.findViewById(R.id.bookSubmit);
         imageUpdated =false;

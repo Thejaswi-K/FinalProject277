@@ -58,6 +58,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
                         Log.e("Check out result :", response.body() + "");
 
                         if (response.code() == 200) {
+
                             Toast.makeText(getApplicationContext(),"Checked out",Toast.LENGTH_SHORT).show();
                             cba.setCatalogs(new ArrayList<Catalog>());
                             cba.notifyDataSetChanged();
