@@ -2,17 +2,26 @@ package com.example.thejaswi.libraryapplication.view.fragment;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thejaswi.libraryapplication.R;
+import com.example.thejaswi.libraryapplication.domain.api.APIService;
+import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
+import com.example.thejaswi.libraryapplication.model.entities.BookIssuedInfo;
 import com.example.thejaswi.libraryapplication.view.activities.MyOrderActivity;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by thejaswi on 12/7/2017.
@@ -20,13 +29,16 @@ import java.util.ArrayList;
 
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> {
     Context context;
-    ArrayList<Integer> selectedArray;
-    private boolean longpressActive=false;
 
-
+    List<BookIssuedInfo> booksCatalogList;
+    APIService mAPI= ServiceGenerator.createService(APIService.class);
     public MyOrderAdapter(Context context) {
         this.context = context;
-        selectedArray=new ArrayList<>();
+    }
+
+    public  MyOrderAdapter(Context context,List<BookIssuedInfo> booksCatalogPair){
+        this.booksCatalogList=booksCatalogPair;
+        this.context=context;
     }
 
     @Override
@@ -38,56 +50,58 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> 
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
+        holder.bookedDate.setText("Issued on date :"+booksCatalogList.get(position).getDate_issued().toString());
+        holder.bookTitle.setText("Title :"+booksCatalogList.get(position).getTitle());
+        holder.dueDate.setText("Due Date :"+booksCatalogList.get(position).getDue_date().toString());
+        holder.bookAuthor.setText("Author :"+booksCatalogList.get(position).getAuthor());
+        holder.bookStatus.setText("Status :"+booksCatalogList.get(position).getStatus());
+        holder.bookPublisher.setText("Publisher :"+booksCatalogList.get(position).getPublisher());
+        holder.bookYear.setText("Year :"+booksCatalogList.get(position).getYear());
 
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        if(booksCatalogList==null) return 0;
+        return booksCatalogList.size();
     }
 
     public class Holder extends RecyclerView.ViewHolder {
 
-        TextView dueDate,bookedDate,bookTitle;
+        TextView dueDate,bookedDate,bookTitle,bookAuthor,bookPublisher,bookYear,bookStatus;
         ImageView bookimage;
-        LinearLayout returnBook;
-        public Holder(final View itemView) {
+        LinearLayout renewBook;
+        public Holder(View itemView) {
             super(itemView);
             bookedDate=(TextView)itemView.findViewById(R.id.order_bookdate);
             dueDate=(TextView)itemView.findViewById(R.id.order_duedate);
             bookimage=(ImageView)itemView.findViewById(R.id.order_bookimage);
             bookTitle = (TextView)itemView.findViewById(R.id.order_title);
-            returnBook = (LinearLayout)itemView.findViewById(R.id.order_return);
-            update(getAdapterPosition());
-            itemView.setOnClickListener(new View.OnClickListener() {
+            renewBook = (LinearLayout)itemView.findViewById(R.id.order_renew);
+            renewBook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(longpressActive&&!selectedArray.contains(getAdapterPosition())){
-                        itemView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
-                        selectedArray.add(getAdapterPosition());
-                    }else if(selectedArray.contains(getAdapterPosition())){
-                        selectedArray.remove(getAdapterPosition());
-                        itemView.setBackgroundColor(context.getResources().getColor(android.R.color.white));
-                        if(selectedArray.size()==0){
-                            longpressActive=false;
+                    BookIssuedInfo bio=booksCatalogList.get(getAdapterPosition());
+                    Call<String> call=mAPI.renewBook(bio.getBook_id());
+                    call.enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            String responseText=response.body();
+                            Log.e("MyOrderAdapter.java","Got response string for renew book as :"+responseText);
+                            Toast.makeText(context,responseText,Toast.LENGTH_LONG).show();
                         }
-                    }else {
-                        //for general click actions
-                    }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Toast.makeText(context,"Please try again later",Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             });
-        }
-        void update(final int pos) {
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    itemView.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
-                    ((MyOrderActivity)context).populateActionbar();
-                    selectedArray.add(pos);
-                    longpressActive=true;
-                    return true;
-                }
-            });
+            bookAuthor=(TextView)itemView.findViewById(R.id.order_author);
+            bookPublisher=(TextView)itemView.findViewById(R.id.publisher);
+            bookYear=(TextView)itemView.findViewById(R.id.year);
+            bookStatus=(TextView)itemView.findViewById(R.id.status);
         }
     }
 }
