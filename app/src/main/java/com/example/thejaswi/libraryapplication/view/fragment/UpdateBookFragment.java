@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +44,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * Created by Mak on 12/16/17.
  */
+
 
 public class UpdateBookFragment extends Fragment {
 
@@ -92,7 +95,7 @@ public class UpdateBookFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_book_form, container, false);
 
         bookImage = (ImageView) view.findViewById(R.id.bookImage);
-        authorName = (EditText) view.findViewById(R.id.bokAuthor);
+        authorName = (EditText) view.findViewById(R.id.bookAuthor);
         bookTitle = (EditText) view.findViewById(R.id.bookTitle);
         callNumber = (EditText) view.findViewById(R.id.bookCallNumber);
         publisher = (EditText) view.findViewById(R.id.bookPublisher);

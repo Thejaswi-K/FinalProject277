@@ -42,7 +42,8 @@
         <activity android:name=".CollectionDetails" />
         <activity android:name=".view.activities.SearchActivity" />
         <activity android:name=".view.activities.CartActivity" />
-        <activity android:name=".view.activities.MyOrderActivity" />
+        <activity android:name=".view.activities.MyOrderActivity"
+            android:parentActivityName=".view.activities.HomeActivity"/>
     </application>
 
 </manifest>
