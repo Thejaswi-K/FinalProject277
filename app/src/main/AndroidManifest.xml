@@ -44,6 +44,10 @@
         <activity android:name=".view.activities.CartActivity" />
         <activity android:name=".view.activities.MyOrderActivity"
             android:parentActivityName=".view.activities.HomeActivity"/>
+        <activity android:name=".view.activities.MyReservationActivity"
+            android:parentActivityName=".view.activities.HomeActivity"/>
+        <activity android:name=".view.activities.MyWaitlistActivity"
+            android:parentActivityName=".view.activities.HomeActivity"/>
     </application>
 
 </manifest>
