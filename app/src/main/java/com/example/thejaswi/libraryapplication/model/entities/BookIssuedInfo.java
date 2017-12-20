@@ -5,6 +5,11 @@ public class BookIssuedInfo {
     private String date_issued;
     private String due_date;
 
+
+    private int book_id;
+    private int catalog_id;
+    private int transaction_id;
+
     private String title;
 
     private String author;
@@ -143,5 +148,29 @@ public class BookIssuedInfo {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public int getBook_id() {
+        return book_id;
+    }
+
+    public void setBook_id(int book_id) {
+        this.book_id = book_id;
+    }
+
+    public int getCatalog_id() {
+        return catalog_id;
+    }
+
+    public void setCatalog_id(int catalog_id) {
+        this.catalog_id = catalog_id;
+    }
+
+    public int getTransaction_id() {
+        return transaction_id;
+    }
+
+    public void setTransaction_id(int transaction_id) {
+        this.transaction_id = transaction_id;
     }
 }

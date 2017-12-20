@@ -18,6 +18,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -50,6 +51,9 @@ public interface APIService {
 
     @GET("patron/books/issued")
     Call<List<BookIssuedInfo>> getBooksIssued();
+
+    @PUT("patron/renew/{id}")
+    Call<String> renewBook(@Path("id") int id);
 
     @POST("librarian/catalog")
     Call<String> addBook(@Body PostCatalog catalog);
