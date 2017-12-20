@@ -1,5 +1,6 @@
 package com.example.thejaswi.libraryapplication.domain.api;
 
+import com.example.thejaswi.libraryapplication.model.entities.BookIssuedInfo;
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.model.entities.Checkout;
 import com.example.thejaswi.libraryapplication.model.entities.ElasticQueryObject;
@@ -7,18 +8,14 @@ import com.example.thejaswi.libraryapplication.model.entities.ElasticSearchResul
 import com.example.thejaswi.libraryapplication.model.entities.GoogleBooks;
 import com.example.thejaswi.libraryapplication.model.entities.Librarian;
 import com.example.thejaswi.libraryapplication.model.entities.Login;
-import com.example.thejaswi.libraryapplication.model.entities.Logout;
 import com.example.thejaswi.libraryapplication.model.entities.Patron;
 import com.example.thejaswi.libraryapplication.model.entities.PostCatalog;
-import com.example.thejaswi.libraryapplication.model.entities.Response;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -50,6 +47,9 @@ public interface APIService {
 
     @GET("patron/cart")
     Call<List<Catalog>> getCart();
+
+    @GET("patron/books/issued")
+    Call<List<BookIssuedInfo>> getBooksIssued();
 
     @POST("librarian/catalog")
     Call<String> addBook(@Body PostCatalog catalog);

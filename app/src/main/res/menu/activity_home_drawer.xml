@@ -18,7 +18,19 @@
             android:title="Cart" />
         <item
             android:id="@+id/myorder"
-            android:title="My Order"
+            android:title="My Books"
+            android:icon="@drawable/ic_library_books_black_24dp"/>
+        <item
+            android:id="@+id/mywaitlist"
+            android:title="My Waitlist"
+            android:icon="@drawable/ic_library_books_black_24dp"/>
+        <item
+            android:id="@+id/myrenewals"
+            android:title="Renewals"
+            android:icon="@drawable/ic_library_books_black_24dp"/>
+        <item
+            android:id="@+id/myhistory"
+            android:title="History"
             android:icon="@drawable/ic_library_books_black_24dp"/>
         <item
             android:id="@+id/logout"

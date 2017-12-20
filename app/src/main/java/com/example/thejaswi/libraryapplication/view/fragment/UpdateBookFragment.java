@@ -92,7 +92,7 @@ public class UpdateBookFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_book_form, container, false);
 
         bookImage = (ImageView) view.findViewById(R.id.bookImage);
-        authorName = (EditText) view.findViewById(R.id.bokAuthor);
+        authorName = (EditText) view.findViewById(R.id.bookAuthor);
         bookTitle = (EditText) view.findViewById(R.id.bookTitle);
         callNumber = (EditText) view.findViewById(R.id.bookCallNumber);
         publisher = (EditText) view.findViewById(R.id.bookPublisher);

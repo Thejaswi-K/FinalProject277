@@ -130,7 +130,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                 Patron patron = response.body();
 
-                if (patron != null) {
+                if (patron != null && response.code()==200) {
 
                     Session.setEmail(patron.getEmail());
                     Session.setPatron(true);
@@ -141,7 +141,20 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                 } else {
                     //responseText.setText("");
-                    Toast.makeText(SignUpActivity.this, "Invalid Details", Toast.LENGTH_SHORT).show();
+                    if(response.code()==403){
+                        Toast.makeText(SignUpActivity.this,"Please ensure the fields in form are entered correctly.",Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    if(response.code()==424){
+                        Toast.makeText(SignUpActivity.this,"The user pre-exists!",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    if(response.code()==409){
+                        Toast.makeText(SignUpActivity.this,"The university id is taken!",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(SignUpActivity.this,"Please resubmit form with correct details.",Toast.LENGTH_LONG).show();
+
                 }
                 //Hide progressbar when done
                 // progressBar.setVisibility(View.INVISIBLE);
@@ -184,7 +197,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 progressDialog.dismiss();
                 //Display successful response results
                 Librarian librarian = response.body();
-                if (librarian != null) {
+                if (librarian != null && response.code()==200) {
                     Session.setEmail(librarian.getEmail());
                     Session.setPatron(false);
 //                    Session.setLoggedIn(true);
@@ -194,7 +207,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                 } else {
                     //responseText.setText("");
-                    Toast.makeText(SignUpActivity.this, "Invalid Details", Toast.LENGTH_SHORT).show();
+                    if(response.code()==403){
+                        Toast.makeText(SignUpActivity.this,"Please ensure the fields in form are entered correctly.",Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    if(response.code()==424){
+                        Toast.makeText(SignUpActivity.this,"The user pre-exists!",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    if(response.code()==409){
+                        Toast.makeText(SignUpActivity.this,"The university id is taken!",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(SignUpActivity.this,"Please resubmit form with correct details.",Toast.LENGTH_LONG).show();
                 }
                 //Hide progressbar when done
                 // progressBar.setVisibility(View.INVISIBLE);
