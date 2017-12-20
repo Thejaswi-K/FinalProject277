@@ -5,6 +5,7 @@ import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.model.entities.Checkout;
 import com.example.thejaswi.libraryapplication.model.entities.ElasticQueryObject;
 import com.example.thejaswi.libraryapplication.model.entities.ElasticSearchResult;
+import com.example.thejaswi.libraryapplication.model.entities.Fine;
 import com.example.thejaswi.libraryapplication.model.entities.GoogleBooks;
 import com.example.thejaswi.libraryapplication.model.entities.Librarian;
 import com.example.thejaswi.libraryapplication.model.entities.Login;
@@ -51,6 +52,9 @@ public interface APIService {
 
     @GET("patron/books/issued")
     Call<List<BookIssuedInfo>> getBooksIssued();
+
+    @PUT("patron/books/return")
+    Call<List<Fine>> returnBooks(@Body List<BookIssuedInfo> bookIssuedInfos);
 
     @PUT("patron/renew/{id}")
     Call<String> renewBook(@Path("id") int id);

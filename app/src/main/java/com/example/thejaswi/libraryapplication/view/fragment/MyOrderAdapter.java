@@ -30,15 +30,18 @@ import retrofit2.Response;
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> {
     Context context;
 
-    List<BookIssuedInfo> booksCatalogList;
+    List<BookIssuedInfo> booksCatalogList; //All populated books issued by you. Comes from server
+    List<BookIssuedInfo> multi_selectList; //All books currently selected by you.
+
     APIService mAPI= ServiceGenerator.createService(APIService.class);
     public MyOrderAdapter(Context context) {
         this.context = context;
     }
 
-    public  MyOrderAdapter(Context context,List<BookIssuedInfo> booksCatalogPair){
+    public  MyOrderAdapter(Context context,List<BookIssuedInfo> booksCatalogPair,List<BookIssuedInfo> multi_selectList){
         this.booksCatalogList=booksCatalogPair;
         this.context=context;
+        this.multi_selectList=multi_selectList;
     }
 
     @Override
@@ -46,6 +49,23 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Holder> 
         View itemView = LayoutInflater.from(context)
                 .inflate(R.layout.order_adapter, parent, false);
         return new MyOrderAdapter.Holder(itemView);
+    }
+
+
+    public List<BookIssuedInfo> getBooksCatalogList() {
+        return booksCatalogList;
+    }
+
+    public void setBooksCatalogList(List<BookIssuedInfo> booksCatalogList) {
+        this.booksCatalogList = booksCatalogList;
+    }
+
+    public List<BookIssuedInfo> getMulti_selectList() {
+        return multi_selectList;
+    }
+
+    public void setMulti_selectList(List<BookIssuedInfo> multi_selectList) {
+        this.multi_selectList = multi_selectList;
     }
 
     @Override

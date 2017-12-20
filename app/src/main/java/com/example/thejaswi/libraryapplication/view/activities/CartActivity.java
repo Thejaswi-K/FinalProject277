@@ -16,6 +16,7 @@ import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.model.entities.Checkout;
 import com.example.thejaswi.libraryapplication.view.fragment.CartBooksAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,6 +27,7 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerView clist;
     APIService apiCheckoutService;
     List<Catalog> catalogs = null;
+    CartBooksAdapter cba=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +37,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.e("CART_ACTIVITY","get request for carts");
         catalogs = Cart.getCatalogArrayList();
-
-        clist.setAdapter(new CartBooksAdapter(this,catalogs));
+        cba= new CartBooksAdapter(this,catalogs);
+        clist.setAdapter(cba);
 
 
         findViewById(R.id.bk).setOnClickListener(this);
@@ -57,6 +59,8 @@ public class CartActivity extends AppCompatActivity implements View.OnClickListe
 
                         if (response.code() == 200) {
                             Toast.makeText(getApplicationContext(),"Checked out",Toast.LENGTH_SHORT).show();
+                            cba.setCatalogs(new ArrayList<Catalog>());
+                            cba.notifyDataSetChanged();
                         }
                         else{
                             Toast.makeText(getApplicationContext(),"Error Checking out",Toast.LENGTH_SHORT).show();

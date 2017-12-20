@@ -48,6 +48,7 @@ public class HomeActivity extends AppCompatActivity
     final private int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE =899;
     private ProgressDialog dialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

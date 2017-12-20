@@ -36,6 +36,14 @@ public class CartBooksAdapter extends RecyclerView.Adapter<CartBooksAdapter.Hold
         this.catalogs=catalogSet;
     }
 
+    public List<Catalog> getCatalogs() {
+        return catalogs;
+    }
+
+    public void setCatalogs(List<Catalog> catalogs) {
+        this.catalogs = catalogs;
+    }
+
     public CartBooksAdapter(Context context){
         this.context=context;
     }

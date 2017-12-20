@@ -14,6 +14,7 @@
     <string name="desc">Upload</string>
     <string name="submit">Submit</string>
     <string name="sub_btn">Submit</string>
+    <string name="return_books">RETURN</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
