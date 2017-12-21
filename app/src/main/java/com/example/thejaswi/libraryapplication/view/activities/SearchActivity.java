@@ -25,6 +25,7 @@ import com.example.thejaswi.libraryapplication.domain.api.ElasticSearchServiceGe
 import com.example.thejaswi.libraryapplication.domain.api.ISBNServiceGenerator;
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.model.entities.ElasticQueryObject;
+import com.example.thejaswi.libraryapplication.model.entities.ElasticSearchPojo;
 import com.example.thejaswi.libraryapplication.model.entities.ElasticSearchResult;
 import com.example.thejaswi.libraryapplication.model.entities.GoogleBooks;
 import com.example.thejaswi.libraryapplication.view.fragment.BooksAdapter;
@@ -83,6 +84,22 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
                     searchAddedByMe();
 
+
+                    more.setText("More");
+                    filter_screen.setVisibility(View.GONE);
+                    search.setHintTextColor(getResources().getColor(android.R.color.black));
+                    search.setBackgroundColor(getResources().getColor(android.R.color.white));
+                    search.setTextColor(getResources().getColor(android.R.color.black));
+                    cancel.setTextColor(getResources().getColor(android.R.color.black));
+                    background.setBackgroundColor(getResources().getColor(android.R.color.white));
+                    more.setTextColor(getResources().getColor(android.R.color.black));
+                    more.setBackgroundDrawable(getResources().getDrawable(R.drawable.edit_text_design));
+                    searchImage.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                    isVisible=false;
+                    line1.setBackgroundColor(getResources().getColor(android.R.color.black));
+                    line2.setBackgroundColor(getResources().getColor(android.R.color.black));
+
+
                 }
 
             }
@@ -123,50 +140,30 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
 
 
-        final Call<ElasticSearchResult> call = mAPIService.elasticSearchByLibrarian("librarian.email:"+Session.getEmail());
+        final Call<ElasticSearchPojo> call = mAPIService.elasticSearchByLibrarian("librarian.email:"+Session.getEmail());
 
-        call.enqueue(new Callback<ElasticSearchResult>() {
+        call.enqueue(new Callback<ElasticSearchPojo>() {
             @Override
-            public void onResponse(Call<ElasticSearchResult> call, Response<ElasticSearchResult> response) {
+            public void onResponse(Call<ElasticSearchPojo> call, Response<ElasticSearchPojo> response) {
 
                 //Display successful response results
-
-                Log.e("ELASTIC_SEARCH", response.body().getProductSuggest() + "");
 
                 if (response.code() == 200) {
 
 
-                    List<ElasticSearchResult.ProductSuggest> productSuggests = response.body().getProductSuggest();
+                    List<ElasticSearchPojo.Hit> productSuggests = response.body().getHits().getHits();
                     List<Catalog> allCatalog = new LinkedList<>();
-                    for(ElasticSearchResult.ProductSuggest pr : productSuggests){
+                    int count =0;
+                    for(ElasticSearchPojo.Hit pr : productSuggests){
 
-                        List<ElasticSearchResult.Option> options = pr.getOptions();
-
-                        for(ElasticSearchResult.Option option : options){
-
-                            allCatalog.add(option.getSource());
-                        }
+                        Log.e("POJO","COUNT ==>"+count++);
+                        allCatalog.add(pr.getSource());
                     }
 
-//                    Log.e("All CATALOG", ""+allCatalog.get(0).getAuthor());
-
+                    Log.e("All CATALOG", ""+allCatalog.get(0).getAuthor());
 
                     showResult.setAdapter(new BooksAdapter(getApplicationContext(),allCatalog, SearchActivity.this));
 
-
-//                    List<GoogleBooks.Item> allItems = response.body().getItems();
-//
-//                    Log.e("AUTHORS", "" + allItems.get(0).getVolumeInfo().getAuthors().get(0));
-//
-//
-//                    GoogleBooks.VolumeInfo item = getCorrectItem(response.body());
-//                    imageUrl = item.getImageLinks().getThumbnail();
-//                    setBookImage(imageUrl);
-//
-//                    bookTitle.setText(item.getTitle());
-//                    authorName.setText(item.getAuthors().toString());
-//                    yearOfPublication.setText(item.getPublishedDate());
-//                    publisher.setText(item.getPublisher());
 
                 }
                 //Hide progressbar when done
@@ -175,7 +172,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
 
             @Override
-            public void onFailure(Call<ElasticSearchResult> call, Throwable t) {
+            public void onFailure(Call<ElasticSearchPojo> call, Throwable t) {
                 // Display error message if the request fails
                 Toast.makeText(getApplicationContext(), "Error while Querying elastic search", Toast.LENGTH_SHORT).show();
                 //Hide progressbar when done

@@ -15,6 +15,7 @@ import com.example.thejaswi.libraryapplication.model.entities.Book;
 import com.example.thejaswi.libraryapplication.model.entities.Cart;
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.model.entities.Status;
+import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
@@ -72,6 +73,8 @@ public class CartBooksAdapter extends RecyclerView.Adapter<CartBooksAdapter.Hold
         Catalog catalog=catalogs.get(position);
         String availability="";
 
+        setBookImage( catalog.getImage_url(), holder.bookimage);
+
         for(Book book:catalog.getBookSet()){
             if(book.getStatus()== Status.AVAILABLE){
                 availability+="AVAILABLE";
@@ -87,6 +90,15 @@ public class CartBooksAdapter extends RecyclerView.Adapter<CartBooksAdapter.Hold
 
         holder.availability.setText(availability);
     }
+
+
+    public void setBookImage(String url,ImageView bookImage) {
+
+        if(url!=null)
+            Picasso.with(context).load(url).into(bookImage);
+
+    }
+
 
     @Override
     public int getItemCount() {

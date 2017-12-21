@@ -23,6 +23,7 @@ import com.example.thejaswi.libraryapplication.model.entities.Cart;
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.view.activities.CartActivity;
 import com.example.thejaswi.libraryapplication.view.activities.SearchActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -75,8 +76,10 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
             holder.edit.setVisibility(View.GONE);
             holder.delete.setVisibility(View.GONE);
         }
-        holder.text1.setText(catalog.get(position).getTitle());
-        holder.text2.setText(catalog.get(position).getAuthor());
+        holder.text1.setText(catalog.get(position).getAuthor());
+        holder.text2.setText(catalog.get(position).getPublisher());
+        holder.mainBookTitle.setText(catalog.get(position).getTitle());
+        setBookImage( catalog.get(position).getImage_url(), holder.bookCover);
 
     }
 
@@ -89,10 +92,19 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
         }
     }
 
+
+    public void setBookImage(String url,ImageView bookImage) {
+
+        if(url!=null)
+            Picasso.with(activity.getApplicationContext()).load(url).into(bookImage);
+
+    }
+
+
     public class Holder extends RecyclerView.ViewHolder {
 
-        TextView text1,text2;
-        ImageView cart,edit,delete;
+        TextView text1,text2,mainBookTitle;
+        ImageView cart,edit,delete,bookCover;
         public Holder(View itemView) {
             super(itemView);
             text1=(TextView)itemView.findViewById(R.id.text1);
@@ -100,6 +112,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
             cart=(ImageView)itemView.findViewById(R.id.cart);
             edit=(ImageView)itemView.findViewById(R.id.edit);
             delete=(ImageView)itemView.findViewById(R.id.delete);
+            mainBookTitle=(TextView)itemView.findViewById(R.id.mainBookTitle);
+            bookCover=(ImageView)itemView.findViewById(R.id.bookCover);
+
             cart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -157,6 +172,9 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
                                             if (response.code() == 200) {
 
                                                 Toast.makeText(activity.getApplicationContext(), "Successfully Deleted book", Toast.LENGTH_SHORT).show();
+                                                catalog.remove(getAdapterPosition());
+                                                notifyDataSetChanged();
+
 
                                             }
                                             //Hide progressbar when done

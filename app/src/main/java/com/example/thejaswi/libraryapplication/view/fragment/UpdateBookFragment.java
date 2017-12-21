@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.thejaswi.libraryapplication.R;
@@ -31,7 +33,9 @@ import com.example.thejaswi.libraryapplication.util.AwsUpload;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -56,7 +60,7 @@ public class UpdateBookFragment extends Fragment {
     EditText publisher;
     EditText numberOfCopies;
     EditText yearOfPublication;
-    EditText locationInTheLibrary;
+    Spinner locationInTheLibrary;
     EditText category;
     EditText keyWords;
     EditText addNumberOfCopies;
@@ -94,6 +98,17 @@ public class UpdateBookFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_book_form, container, false);
 
+
+//        List<String> list=new ArrayList<>();
+//        list.add("Select Location");
+//        list.add("floor 1");
+//        list.add("floor 2");
+//        list.add("floor 3");
+//        list.add("floor 4");
+//
+//        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),R.layout.spinner_layout,R.id.text,list);
+//        locationInTheLibrary.setAdapter(adapter);
+
         bookImage = (ImageView) view.findViewById(R.id.bookImage);
         authorName = (EditText) view.findViewById(R.id.bookAuthor);
         bookTitle = (EditText) view.findViewById(R.id.bookTitle);
@@ -102,7 +117,7 @@ public class UpdateBookFragment extends Fragment {
         numberOfCopies = (EditText) view.findViewById(R.id.bookCopies);
         addNumberOfCopies = (EditText) view.findViewById(R.id.addBookCopies);
         yearOfPublication = (EditText) view.findViewById(R.id.bookPublishedYear);
-        locationInTheLibrary = (EditText) view.findViewById(R.id.bookLocation);
+        locationInTheLibrary = (Spinner) view.findViewById(R.id.bookLocation);
         category = (EditText) view.findViewById(R.id.bookCategory);
         keyWords = (EditText) view.findViewById(R.id.bookKeywords);
         submitButton = (Button) view.findViewById(R.id.bookSubmit);
@@ -113,15 +128,17 @@ public class UpdateBookFragment extends Fragment {
 
             Catalog book = (Catalog) getArguments().getSerializable("updateBook");
 
-            numberOfCopies.setVisibility(View.INVISIBLE);
+            numberOfCopies.setVisibility(View.GONE);
+            locationInTheLibrary.setVisibility(View.GONE);
             addNumberOfCopies.setVisibility(View.VISIBLE);
-            addNumberOfCopies.setText(Integer.toString(book.getCatalog_id()));
             authorName.setText(book.getAuthor());
             bookTitle.setText(book.getTitle());
             callNumber.setText(Long.toString(book.getCall_number()));
             publisher.setText( book.getPublisher());
             yearOfPublication.setText( book.getYear());
-            locationInTheLibrary.setText( book.getLocation());
+
+//            locationInTheLibrary.setText( book.getLocation());
+
             keyWords.setText(showKeywords(book.getKeywords()));
             imageUrl=book.getImage_url();
             setBookImage(imageUrl);
@@ -157,7 +174,11 @@ public class UpdateBookFragment extends Fragment {
                 item.setPublisher(publisher.getText().toString());
                 item.setNumber_of_copies(Integer.parseInt(addNumberOfCopies.getText().toString()));
                 item.setYear(yearOfPublication.getText().toString());
-                item.setLocation(locationInTheLibrary.getText().toString());
+
+//                if(locationInTheLibrary.getSelectedItemPosition()!=0){
+//                    item.setLocation(locationInTheLibrary.getSelectedItem().toString());
+//                }
+
                 item.setKeywords(getKeywords(keyWords.getText().toString()));
                 item.setCatalog_id(catalog_id);
 

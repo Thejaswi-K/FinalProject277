@@ -15,7 +15,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:id="@+id/bookimage"
-                android:src="@drawable/book_cover"/>
+                android:src="@drawable/book_placeholder"/>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"

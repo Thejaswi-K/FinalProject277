@@ -4,6 +4,7 @@ import com.example.thejaswi.libraryapplication.model.entities.BookIssuedInfo;
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.model.entities.Checkout;
 import com.example.thejaswi.libraryapplication.model.entities.ElasticQueryObject;
+import com.example.thejaswi.libraryapplication.model.entities.ElasticSearchPojo;
 import com.example.thejaswi.libraryapplication.model.entities.ElasticSearchResult;
 import com.example.thejaswi.libraryapplication.model.entities.Fine;
 import com.example.thejaswi.libraryapplication.model.entities.GoogleBooks;
@@ -93,5 +94,5 @@ public interface APIService {
     Call<ElasticSearchResult> elasticSearch(@Body ElasticQueryObject query);
 
     @POST("library/_search")
-    Call<ElasticSearchResult> elasticSearchByLibrarian(@Query("q") String query);
+    Call<ElasticSearchPojo> elasticSearchByLibrarian(@Query("q") String query);
 }

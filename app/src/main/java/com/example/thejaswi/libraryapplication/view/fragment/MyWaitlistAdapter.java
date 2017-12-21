@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.thejaswi.libraryapplication.R;
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
 import com.example.thejaswi.libraryapplication.view.activities.MyWaitlistActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,13 @@ public class MyWaitlistAdapter extends RecyclerView.Adapter<MyWaitlistAdapter.Ho
         return new MyWaitlistAdapter.Holder(itemView);
     }
 
+    public void setBookImage(String url,ImageView bookImage) {
+
+        if(url!=null)
+            Picasso.with(context).load(url).into(bookImage);
+
+    }
+
     @Override
     public void onBindViewHolder(MyWaitlistAdapter.Holder holder, int position) {
         holder.bookTitle.setText("Title :"+catalogList.get(position).getTitle());
@@ -52,6 +60,8 @@ public class MyWaitlistAdapter extends RecyclerView.Adapter<MyWaitlistAdapter.Ho
         holder.bookYear.setText("Year :"+catalogList.get(position).getYear());
         holder.addToCart.setText("Add To Cart");
         holder.addToCart.setVisibility(View.GONE);
+
+        setBookImage( catalogList.get(position).getImage_url(), holder.bookimage);
     }
 
     @Override

@@ -56,6 +56,7 @@ public class BookFormFragment extends Fragment {
     EditText bookTitle;
     EditText callNumber;
     EditText publisher;
+    EditText bookISBN;
     EditText numberOfCopies;
     EditText yearOfPublication;
     Spinner locationInTheLibrary;
@@ -71,6 +72,7 @@ public class BookFormFragment extends Fragment {
     final private int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE =899;
     private int PHOTO_SELECTED = 777;
     private Bitmap bitMap;
+    boolean imageSelected = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,7 @@ public class BookFormFragment extends Fragment {
         bookImage = (ImageView) view.findViewById(R.id.bookImage);
         authorName = (EditText) view.findViewById(R.id.bookAuthor);
         bookTitle = (EditText) view.findViewById(R.id.bookTitle);
+        bookISBN = (EditText) view.findViewById(R.id.bookISBN);
         callNumber = (EditText) view.findViewById(R.id.bookCallNumber);
         publisher = (EditText) view.findViewById(R.id.bookPublisher);
         numberOfCopies = (EditText) view.findViewById(R.id.bookCopies);
@@ -154,7 +157,8 @@ public class BookFormFragment extends Fragment {
                 } else {
                     try {
 
-                        imageUrl = uploadImage();
+                        if( imageSelected)
+                        {imageUrl = uploadImage();}
 
                     } catch (ExecutionException e) {
                         e.printStackTrace();
@@ -231,6 +235,7 @@ public class BookFormFragment extends Fragment {
     public void fillForm(String isbn) {
 
         this.isbn = isbn;
+        bookISBN.setText(isbn);
 
         final Call<GoogleBooks> call = mAPIService.getISBNDetails("ISBN:" + isbn);
         call.enqueue(new Callback<GoogleBooks>() {
@@ -253,7 +258,7 @@ public class BookFormFragment extends Fragment {
                     setBookImage(imageUrl);
 
                     bookTitle.setText(item.getTitle());
-                    authorName.setText(item.getAuthors().toString());
+                    authorName.setText(item.getAuthors().get(0));
                     yearOfPublication.setText(item.getPublishedDate());
                     publisher.setText(item.getPublisher());
 
@@ -347,6 +352,7 @@ public class BookFormFragment extends Fragment {
                 bitMap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), path);
                 bookImage.setImageBitmap(bitMap);
                 bookImage.setVisibility(View.VISIBLE);
+                imageSelected = true;
 
             } catch (IOException e) {
                 e.printStackTrace();

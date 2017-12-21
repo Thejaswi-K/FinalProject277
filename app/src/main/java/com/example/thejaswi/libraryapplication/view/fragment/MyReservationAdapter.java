@@ -16,6 +16,7 @@ import com.example.thejaswi.libraryapplication.domain.api.APIService;
 import com.example.thejaswi.libraryapplication.domain.api.ServiceGenerator;
 import com.example.thejaswi.libraryapplication.model.entities.BookIssuedInfo;
 import com.example.thejaswi.libraryapplication.model.entities.Catalog;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -65,6 +66,16 @@ public class MyReservationAdapter extends RecyclerView.Adapter<MyReservationAdap
         holder.bookStatus.setText("Status : RESERVED");
         holder.bookPublisher.setText("Publisher :"+catalogList.get(position).getPublisher());
         holder.bookYear.setText("Year :"+catalogList.get(position).getYear());
+
+        setBookImage( catalogList.get(position).getImage_url(), holder.bookimage);
+    }
+
+
+    public void setBookImage(String url,ImageView bookImage) {
+
+        if(url!=null)
+            Picasso.with(context).load(url).into(bookImage);
+
     }
 
     @Override
