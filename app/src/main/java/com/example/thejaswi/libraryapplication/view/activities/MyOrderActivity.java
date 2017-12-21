@@ -132,10 +132,13 @@ public class MyOrderActivity extends AppCompatActivity {
         if (mActionMode != null) {
             if (multiselect_list.contains(booksCatalogPair.get(position))) {
                 multiselect_list.remove(booksCatalogPair.get(position));
+                booksIssuedList.findViewHolderForAdapterPosition(position).itemView.setBackgroundColor(getResources().getColor(android.R.color.white));
             }
-            else
-                multiselect_list.add(booksCatalogPair.get(position));
+            else {
+                booksIssuedList.findViewHolderForAdapterPosition(position).itemView.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
 
+                multiselect_list.add(booksCatalogPair.get(position));
+            }
 
             if (multiselect_list.size() > 0)
                 mActionMode.setTitle("" + multiselect_list.size());

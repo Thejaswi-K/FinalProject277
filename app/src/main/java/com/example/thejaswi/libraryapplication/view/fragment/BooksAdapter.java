@@ -153,12 +153,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(activity);
                     builder1.setMessage("Are you sure, you want to delete this book");
                     builder1.setCancelable(true);
-
+                    Log.e("Hitting D","Succcesss");
                     builder1.setPositiveButton(
                             "Yes",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-
+                                    Log.e("Hitting D","Succcesss from set positive");
                                     final Call<String> call = bookAPIService.deleteBook(Integer.toString(catalog.get(getAdapterPosition()).getCatalog_id()));
 
                                     call.enqueue(new Callback<String>() {
@@ -177,6 +177,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.Holder> {
 
 
                                             }
+                                            if(response.code()==424)
+                                                Toast.makeText(activity.getApplicationContext(),"Cannot be deleted as still booked",Toast.LENGTH_LONG).show();
                                             //Hide progressbar when done
                                             // progressBar.setVisibility(View.INVISIBLE);
 
