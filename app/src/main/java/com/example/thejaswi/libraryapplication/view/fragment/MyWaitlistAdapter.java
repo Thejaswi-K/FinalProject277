@@ -47,7 +47,7 @@ public class MyWaitlistAdapter extends RecyclerView.Adapter<MyWaitlistAdapter.Ho
     public void onBindViewHolder(MyWaitlistAdapter.Holder holder, int position) {
         holder.bookTitle.setText("Title :"+catalogList.get(position).getTitle());
         holder.bookAuthor.setText("Author :"+catalogList.get(position).getAuthor());
-        holder.bookStatus.setText("Status : RESERVED");
+        holder.bookStatus.setText("Status : Wait Listed");
         holder.bookPublisher.setText("Publisher :"+catalogList.get(position).getPublisher());
         holder.bookYear.setText("Year :"+catalogList.get(position).getYear());
         holder.addToCart.setText("Add To Cart");
